@@ -7,31 +7,42 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #fff8ed;
-    color: #4b2e17;
+    background-color: #94a8fa;
+    color: #333;
     text-align: center;
 }
 
+/* HEADER */
+
 header {
-    background-color: #8b5e3c;
+    background-color: #94a8fa;
     color: white;
     padding: 30px;
+    border: 2px solid #5368c9;
+    border-radius: 10px;
+    margin: 15px;
 }
 
 header h1 {
     margin-bottom: 10px;
 }
 
+/* MAIN */
+
 main {
     display: flex;
     justify-content: center;
     padding: 40px;
-     gap:30px;
+    gap: 30px;
+    flex-wrap: wrap;
 }
+
+/* GAME */
 
 .game {
     background-color: white;
     padding: 40px;
+    border: 2px solid #5368c9;
     border-radius: 20px;
     width: 400px;
     max-width: 100%;
@@ -41,43 +52,61 @@ main {
 #cookie-count {
     font-size: 50px;
     margin: 20px;
-    color: #b87333;
+    color: #5368c9;
 }
+
+/* CLICK ME BUTTON */
 
 #cookie-button {
     font-size: 40px;
-    background-color: #b87333;
-    padding: 5px 10px;
-    background: none;
+    background-color: #5368c9;
+    color: white;
+    padding: 10px 20px;
+    border: 2px solid #3447a5;
     border-radius: 10px;
-    
 }
+
+
 
 .game p {
     margin-top: 20px;
 }
 
-.shop{
-    background:white;
+/* SHOP */
+
+.shop {
+    background-color: white;
     padding: 40px;
+    border: 2px solid #5368c9;
     border-radius: 20px;
     width: 400px;
     max-width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.shop button{
-    background: white;
-    color:black;
+.shop h2 {
+    margin: 15px;
+}
+
+.shop h3 {
+    margin-top: 20px;
+}
+
+.shop p {
+    margin: 15px;
+}
+
+/* SHOP BUTTONS */
+
+.shop button {
+    background-color: #5368c9;
+    color: white;
     padding: 12px;
+    border: 2px solid #3447a5;
     border-radius: 10px;
     font-size: 20px;
     margin: 10px;
 }
 
-.shop p{
-    margin: 15px;
-}
-.shop h2{
-    margin: 15px;
-}
+
+
