@@ -26,6 +26,7 @@ main {
     display: flex;
     justify-content: center;
     padding: 40px;
+     gap:30px;
 }
 
 .game {
@@ -54,4 +55,29 @@ main {
 
 .game p {
     margin-top: 20px;
+}
+
+.shop{
+    background:white;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    max-width: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shop button{
+    background: white;
+    color:black;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 10px;
+}
+
+.shop p{
+    margin: 15px;
+}
+.shop h2{
+    margin: 15px;
 }

@@ -1,16 +1,56 @@
 
 let cookies = 0;
+let cursors = 0;
+let price = 10;
 
-const cookieButton =
-    document.getElementById("cookie-button");
+// Click on cookie
 
-const cookieCount =
-    document.getElementById("cookie-count");
-
-cookieButton.addEventListener("click", function() {
+document.getElementById("cookie-button").onclick = function() {
 
     cookies++;
 
-    cookieCount.textContent = cookies;
+    update();
 
-});
+};
+
+// Buy cursor
+
+document.getElementById("buy").onclick = function() {
+
+    if (cookies >= price) {
+
+        cookies = cookies - price;
+
+        cursors++;
+
+        price = Math.ceil(price * 1.15);
+
+        update();
+
+    }
+
+};
+
+// Automatic production every second
+
+setInterval(function() {
+
+    cookies = cookies + cursors;
+
+    update();
+
+}, 1000);
+
+// Update screen
+
+function update() {
+
+    document.getElementById("cookie-count").textContent = cookies;
+
+    document.getElementById("owned").textContent = cursors;
+
+    document.getElementById("price").textContent = price;
+
+}
+
+update();
