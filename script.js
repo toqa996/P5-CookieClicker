@@ -1,89 +1,128 @@
 
 let cookies = 0;
 
-// Cursor
-let cursors = 0;
-let price = 10;
+const cookieCount = document.getElementById('cookie-count');
 
-// Grandma
-let grandmas = 0;
-let grandmaPrice = 50;
+const cookieButton = document.getElementById('cookie-button');
 
 
 // Click on cookie
 
-document.getElementById("cookie-button").onclick = function() {
+cookieButton.addEventListener('click', () => {
 
-    cookies++;
+    cookies = cookies + 1;
 
-    update();
+    cookieCount.textContent = cookies;
 
-};
-
-
-// Buy Cursor
-
-document.getElementById("buy").onclick = function() {
-
-    if (cookies >= price) {
-
-        cookies = cookies - price;
-
-        cursors++;
-
-        price = Math.ceil(price * 1.15);
-
-        update();
-
-    }
-
-};
+});
 
 
-// Buy Grandma
+// Production Unit Class
 
-document.getElementById("buy-grandma").onclick = function() {
+class ProductionUnit {
 
-    if (cookies >= grandmaPrice) {
+    constructor(name, price, production, displayId, buttonId, priceId) {
 
-        cookies = cookies - grandmaPrice;
+        this.name = name;
 
-        grandmas++;
+        this.price = price;
 
-        grandmaPrice = Math.ceil(grandmaPrice * 1.15);
+        this.production = production;
 
-        update();
+        this.amount = 0;
+
+        this.display = document.getElementById(displayId);
+
+        this.button = document.getElementById(buttonId);
+
+        this.priceDisplay = document.getElementById(priceId);
+
+        this.button.addEventListener('click', () => {
+
+            this.buy();
+
+        });
 
     }
 
-};
 
+    // Buy production unit
+
+    buy() {
+
+        if (cookies >= this.price) {
+
+            cookies = cookies - this.price;
+
+            this.amount = this.amount + 1;
+
+            this.price = Math.ceil(this.price * 1.05);
+
+            cookieCount.textContent = cookies;
+
+            this.display.textContent = this.amount;
+
+            this.priceDisplay.textContent = this.price;
+
+        }
+
+    }
+
+
+    // Calculate production
+
+    getProductionPerSecond() {
+
+        return this.amount * this.production;
+
+    }
+
+}
+
+
+// Create Cursor
+
+const cursor = new ProductionUnit(
+    'Cursor',
+    10,
+    1,
+    'owned',
+    'buy',
+    'price'
+);
+
+
+// Create Grandma
+
+const grandma = new ProductionUnit(
+    'Grandma',
+    50,
+    5,
+    'grandma-owned',
+    'buy-grandma',
+    'grandma-price'
+);
+
+
+//create Farm
+const farm = new ProductionUnit(
+    'farm',
+    100,
+    10,
+    'farm-owned',
+    'buy-farm',
+    'farm-price'
+);
 
 // Automatic production
 
 setInterval(function() {
 
-    cookies = cookies + cursors + (grandmas * 5);
+    cookies = cookies
+        + cursor.getProductionPerSecond()
+        + grandma.getProductionPerSecond();
+    + farm.getProductionPerSecond();
 
-    update();
+    cookieCount.textContent = cookies;
 
 }, 1000);
-
-
-// Update screen
-
-function update() {
-
-    document.getElementById("cookie-count").textContent = cookies;
-
-    document.getElementById("owned").textContent = cursors;
-
-    document.getElementById("price").textContent = price;
-
-    document.getElementById("grandma-owned").textContent = grandmas;
-
-    document.getElementById("grandma-price").textContent = grandmaPrice;
-
-}
-
-update();
