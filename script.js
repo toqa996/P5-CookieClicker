@@ -113,6 +113,15 @@ const farm = new ProductionUnit(
     'buy-farm',
     'farm-price'
 );
+//create Factory
+const farmfactory = new ProductionUnit(
+    'factory',
+    100,
+    10,
+    'factory-owned',
+    'buy-factory',
+    'factory-price'
+);
 
 // Automatic production
 
@@ -121,7 +130,8 @@ setInterval(function() {
     cookies = cookies
         + cursor.getProductionPerSecond()
         + grandma.getProductionPerSecond();
-    + farm.getProductionPerSecond();
+        + farm.getProductionPerSecond();
+        +factory.getProductionPerSecond();
 
     cookieCount.textContent = cookies;
 
