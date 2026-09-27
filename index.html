@@ -3,6 +3,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -11,6 +12,7 @@
     <title>Toqa's Cookie Clicker</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -23,7 +25,10 @@
 
     </header>
 
+
     <main>
+
+        <!-- GAME SECTION -->
 
         <section class="game">
 
@@ -31,48 +36,319 @@
 
             <h1 id="cookie-count">0</h1>
 
-            <button id="cookie-button">
-                Click me &#127850;
+            <button id="cookie-button"
+                    aria-label="Click cookie">
+
+                <img src="cookie.png"
+                     alt="Cookie">
+
             </button>
 
             <p>Click the cookie to earn points!</p>
+            
+            <p>Cookies per second: <span id="cps">0</span></p>
 
         </section>
 
 
+        <!-- SHOP SECTION -->
+
         <section class="shop">
-            <!-- Cursor Section -->
 
             <h2>Shop</h2>
-            <h3>Cursor</h3>
-            <p> Price: <span id="price">10</span> </p>
-            <p>Owned: <span id="owned">0</span> </p>
-            <button id="buy"> Buy Cursor</button>
 
-            <!-- Grandma Section -->
-            <h3>Grandma</h3>
-            <p>Price: <span id="grandma-price">50</span></p>
-            <p>Owned: <span id="grandma-owned">0</span></p>
-            <button id="buy-grandma">Buy Grandma</button>
+            <div class="shop-grid">
 
-            <!--Farm Section-->
-            <h3>Farm</h3>
-            <p>Price: <span id="farm-price">100</span></p>
-            <p>Owned: <span id="farm-owned">0</span></p>
-            <button id="buy-farm">Buy Farm</button>
 
-            <!-- Factory Section -->
-            <h3>Factory</h3>
-            <p>Price: <span id="factory-price">500</span></p>
-            <p>Owned: <span id="factory-owned">0</span></p>
-            <button id="buy-factory">Buy Factory</button>
-            
+                <!-- CURSOR -->
+
+                <div class="shop-item">
+
+                    <h3>Cursor</h3>
+
+                    <p>
+                        Price:
+                        <span id="price">10</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="owned">0</span>
+                    </p>
+
+                    <button id="buy">
+                        Buy Cursor
+                    </button>
+
+                </div>
+
+
+                <!-- GRANDMA -->
+
+                <div class="shop-item">
+
+                    <h3>Grandma</h3>
+
+                    <p>
+                        Price:
+                        <span id="grandma-price">50</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="grandma-owned">0</span>
+                    </p>
+
+                    <button id="buy-grandma">
+                        Buy Grandma
+                    </button>
+
+                </div>
+
+
+                <!-- FARM -->
+
+                <div class="shop-item">
+
+                    <h3>Farm</h3>
+
+                    <p>
+                        Price:
+                        <span id="farm-price">100</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="farm-owned">0</span>
+                    </p>
+
+                    <button id="buy-farm">
+                        Buy Farm
+                    </button>
+
+                </div>
+
+
+                <!-- FACTORY -->
+
+                <div class="shop-item">
+
+                    <h3>Factory</h3>
+
+                    <p>
+                        Price:
+                        <span id="factory-price">500</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="factory-owned">0</span>
+                    </p>
+
+                    <button id="buy-factory">
+                        Buy Factory
+                    </button>
+
+                </div>
+
+
+                <!-- MINE -->
+
+                <div class="shop-item">
+
+                    <h3>Mine</h3>
+
+                    <p>
+                        Price:
+                        <span id="mine-price">1000</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="mine-owned">0</span>
+                    </p>
+
+                    <button id="buy-mine">
+                        Buy Mine
+                    </button>
+
+                </div>
+
+
+                <!-- BANK -->
+
+                <div class="shop-item">
+
+                    <h3>Bank</h3>
+
+                    <p>
+                        Price:
+                        <span id="bank-price">1500</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="bank-owned">0</span>
+                    </p>
+
+                    <button id="buy-bank">
+                        Buy Bank
+                    </button>
+
+                </div>
+
+
+                <!-- TEMPLE -->
+
+                <div class="shop-item">
+
+                    <h3>Temple</h3>
+
+                    <p>
+                        Price:
+                        <span id="temple-price">2000</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="temple-owned">0</span>
+                    </p>
+
+                    <button id="buy-temple">
+                        Buy Temple
+                    </button>
+
+                </div>
+
+
+                <!-- TOWER -->
+
+                <div class="shop-item">
+
+                    <h3>Tower</h3>
+
+                    <p>
+                        Price:
+                        <span id="tower-price">2500</span>
+                    </p>
+
+                    <p>
+                        Owned:
+                        <span id="tower-owned">0</span>
+                    </p>
+
+                    <button id="buy-tower">
+                        Buy Tower
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- UPGRADES SECTION -->
+
+        <section class="upgrade">
+
+            <h2>Upgrades</h2>
+
+            <div class="upgrade-container">
+
+
+            <!-- CURSOR UPGRADE -->
+
+            <div class="upgrade-item">
+
+                <h3>Better Mouse</h3>
+
+                <p>Double Cursor production!</p>
+
+                <p>Price: 100 Cookies</p>
+
+                <button id="upgrade-cursor">
+                    Upgrade Cursor 
+                </button>
+
+            </div>
+
+
+            <!-- GRANDMA UPGRADE -->
+
+            <div class="upgrade-item">
+
+                <h3>Super Grandma</h3>
+
+                <p>Double Grandma production!</p>
+
+                <p>Price: 150 Cookies</p>
+
+                <button id="upgrade-grandma">
+                    Upgrade Grandma 
+                </button>
+
+            </div>
+
+
+            <!-- FARM UPGRADE -->
+
+            <div class="upgrade-item">
+
+                <h3>Better Farming</h3>
+
+                <p>Double Farm production!</p>
+
+                <p>Price: 200 Cookies</p>
+
+                <button id="upgrade-farm">
+                    Upgrade Farm 
+                </button>
+
+            </div>
+
+                <!-- Factory UPGRADE -->
+
+            <div class="upgrade-item">
+
+                <h3>Better Factory</h3>
+
+                <p>Double Factory production!</p>
+
+                <p>Price: 250 Cookies</p>
+
+                <button id="upgrade-factory">
+                    Upgrade Factory 
+                </button>
+
+            </div>
+
+                <!-- Mine UPGRADE -->
+
+            <div class="upgrade-item">
+
+                <h3>Better Mine</h3>
+
+                <p>Double Mine production!</p>
+
+                <p>Price: 300 Cookies</p>
+
+                <button id="upgrade-mine">
+                    Upgrade Mine 
+                </button>
+
+            </div>
+            </div>
 
         </section>
 
     </main>
 
+
+    <!-- JAVASCRIPT -->
+
     <script src="script.js"></script>
 
 </body>
+
 </html>
