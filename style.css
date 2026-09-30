@@ -161,6 +161,19 @@ h3 {
     transform: scale(0.92);
 }
 
+/*Golden Cookies Button*/
+#golden-cookies {
+    display: none;
+    margin: 15px auto 0;
+    background-color:  #9c6b43;
+    border: none;
+    border-radius: 30px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+
+
 
 /* ---------------------------------
    SHOP SECTION
@@ -387,3 +400,5 @@ button:disabled:hover {
     }
 
 }
+
+

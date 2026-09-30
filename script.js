@@ -19,6 +19,9 @@
  const cpsDisplay =
      document.getElementById("cps");
 
+const goldenCookie = document.getElementById("golden-cookies");
+
+
 
  // ---------------------------------
  // CLICK ON COOKIE
@@ -436,3 +439,34 @@
      updateCPS();
 
  }, 1000);
+
+
+ // ---------------------------------
+ // Golden Cookies 
+
+ function showGoldenCookie() {
+     goldenCookie.style.display = "block";
+ }
+function hideGoldenCookie() {
+     goldenCookie.style.display = "none";
+}
+
+ setInterval(function() {
+
+   showGoldenCookie();
+
+   setTimeout(function() {
+
+     hideGoldenCookie();
+
+   }, 5000);
+
+ }, 15000);
+
+ goldenCookie.addEventListener("click", function() {
+     cookies = cookies + 100;
+     cookieDisplay.textContent = cookies;
+     hideGoldenCookie();
+ })
+
+
