@@ -1,597 +1,913 @@
+// ---------------------------------
+// GENERAL GAME VARIABLES
+// ---------------------------------
 
- // ---------------------------------
- // GENERAL GAME VARIABLES
- // ---------------------------------
-
- let cookies = 0;
+let cookies = 0;
 
 
- // ---------------------------------
- // HTML ELEMENTS
- // ---------------------------------
+// ---------------------------------
+// HTML ELEMENTS
+// ---------------------------------
 
- const cookieDisplay =
-     document.getElementById("cookie-count");
+const cookieDisplay =
+    document.getElementById("cookie-count");
 
- const cookieButton =
-     document.getElementById("cookie-button");
+const cookieButton =
+    document.getElementById("cookie-button");
 
- const cpsDisplay =
-     document.getElementById("cps");
+const cpsDisplay =
+    document.getElementById("cps");
 
-const goldenCookie = document.getElementById("golden-cookies");
+const goldenCookie =
+    document.getElementById("golden-cookies");
 
 const resetButton =
     document.getElementById("reset-game");
 
+const darkModeButton =
+    document.getElementById("dark-mode");
 
 
- // ---------------------------------
- // CLICK ON COOKIE
- // ---------------------------------
+// ---------------------------------
+// CLICK ON COOKIE
+// ---------------------------------
 
- cookieButton.addEventListener("click", function() {
+cookieButton.addEventListener("click", function() {
 
-     cookies = cookies + 1;
+    // Add one cookie
+    cookies = cookies + 1;
 
-     cookieDisplay.textContent = cookies;
+    // Update cookie counter
+    cookieDisplay.textContent = cookies;
 
- });
+});
 
 
- // ---------------------------------
- // PRODUCTION UNIT CLASS
- // ---------------------------------
+// ---------------------------------
+// PRODUCTION UNIT CLASS
+// ---------------------------------
 
- class ProductionUnit {
+class ProductionUnit {
 
-     constructor(
-         name,
-         price,
-         production,
-         displayId,
-         buttonId,
-         priceId
-     ) {
+    constructor(
+        name,
+        price,
+        production,
+        displayId,
+        buttonId,
+        priceId
+    ) {
 
-         this.name = name;
+        this.name = name;
 
-         this.price = price;
+        // Current price
+        this.price = price;
 
-         this.production = production;
+        // Production per second
+        this.production = production;
 
-         this.amount = 0;
+        // Number of units owned
+        this.amount = 0;
 
-         this.multiplier = 1;
+        // Production multiplier
+        this.multiplier = 1;
 
-         this.display =
-             document.getElementById(displayId);
 
-         this.button =
-             document.getElementById(buttonId);
+        // Owned amount in HTML
+        this.display =
+            document.getElementById(displayId);
 
-         this.priceDisplay =
-             document.getElementById(priceId);
 
-         this.button.addEventListener("click", () => {
+        // Buy button
+        this.button =
+            document.getElementById(buttonId);
 
-             this.buy();
 
-         });
+        // Price in HTML
+        this.priceDisplay =
+            document.getElementById(priceId);
 
-     }
 
+        // Buy unit when button is clicked
+        this.button.addEventListener("click", () => {
 
-     // ---------------------------------
-     // BUY PRODUCTION UNIT
-     // ---------------------------------
+            this.buy();
 
-     buy() {
+        });
 
-         if (cookies >= this.price) {
+    }
 
-             // Pay cookies
 
-             cookies = cookies - this.price;
+    // ---------------------------------
+    // BUY PRODUCTION UNIT
+    // ---------------------------------
 
-             // Increase owned amount
+    buy() {
 
-             this.amount = this.amount + 1;
+        // Check if player has enough cookies
+        if (cookies >= this.price) {
 
-             // Increase price by 15%
+            // Pay cookies
+            cookies =
+                cookies - this.price;
 
-             this.price =
-                 Math.ceil(this.price * 1.15);
 
-             // Update cookie counter
+            // Increase owned amount
+            this.amount =
+                this.amount + 1;
 
-             cookieDisplay.textContent = cookies;
 
-             // Update owned amount
+            // Increase price by 15%
+            this.price =
+                Math.ceil(
+                    this.price * 1.15
+                );
 
-             this.display.textContent = this.amount;
 
-             // Update new price
+            // Update cookie counter
+            cookieDisplay.textContent =
+                cookies;
 
-             this.priceDisplay.textContent = this.price;
 
-             updateCPS();
-             saveGame();
+            // Update owned amount
+            this.display.textContent =
+                this.amount;
 
-         }
 
-     }
+            // Update price
+            this.priceDisplay.textContent =
+                this.price;
 
 
-     // ---------------------------------
-     // PRODUCTION PER SECOND
-     // ---------------------------------
-
-     getProductionPerSecond() {
-
-         return (
-             this.amount
-             * this.production
-             * this.multiplier
-         );
-
-     }
-
- }
-
-
- // ---------------------------------
- // CREATE PRODUCTION UNITS
- // ---------------------------------
+            // Update cookies per second
+            updateCPS();
 
- const cursor = new ProductionUnit(
-     "Cursor",
-     10,
-     1,
-     "owned",
-     "buy",
-     "price"
- );
 
+            // Save after buying
+            saveGame();
 
- const grandma = new ProductionUnit(
-     "Grandma",
-     50,
-     5,
-     "grandma-owned",
-     "buy-grandma",
-     "grandma-price"
- );
+        } else {
 
+            alert("Not enough cookies!");
 
- const farm = new ProductionUnit(
-     "Farm",
-     100,
-     10,
-     "farm-owned",
-     "buy-farm",
-     "farm-price"
- );
+        }
 
+    }
 
- const factory = new ProductionUnit(
-     "Factory",
-     500,
-     50,
-     "factory-owned",
-     "buy-factory",
-     "factory-price"
- );
 
+    // ---------------------------------
+    // PRODUCTION PER SECOND
+    // ---------------------------------
 
- const mine = new ProductionUnit(
-     "Mine",
-     1000,
-     100,
-     "mine-owned",
-     "buy-mine",
-     "mine-price"
- );
+    getProductionPerSecond() {
 
+        return (
+            this.amount
+            * this.production
+            * this.multiplier
+        );
 
- const bank = new ProductionUnit(
-     "Bank",
-     1500,
-     150,
-     "bank-owned",
-     "buy-bank",
-     "bank-price"
- );
+    }
 
+}
 
- const temple = new ProductionUnit(
-     "Temple",
-     2000,
-     200,
-     "temple-owned",
-     "buy-temple",
-     "temple-price"
- );
 
+// ---------------------------------
+// CREATE PRODUCTION UNITS
+// ---------------------------------
 
- const tower = new ProductionUnit(
-     "Tower",
-     2500,
-     250,
-     "tower-owned",
-     "buy-tower",
-     "tower-price"
- );
+const cursor =
+    new ProductionUnit(
+        "Cursor",
+        10,
+        1,
+        "owned",
+        "buy",
+        "price"
+    );
 
 
- // ---------------------------------
- // BASE UPGRADE CLASS
- // ---------------------------------
+const grandma =
+    new ProductionUnit(
+        "Grandma",
+        50,
+        5,
+        "grandma-owned",
+        "buy-grandma",
+        "grandma-price"
+    );
 
- class Upgrade {
 
-     constructor(
-         price,
-         buttonId
-     ) {
+const farm =
+    new ProductionUnit(
+        "Farm",
+        100,
+        10,
+        "farm-owned",
+        "buy-farm",
+        "farm-price"
+    );
 
-         this.price = price;
 
-         // Upgrade has not been purchased
+const factory =
+    new ProductionUnit(
+        "Factory",
+        500,
+        50,
+        "factory-owned",
+        "buy-factory",
+        "factory-price"
+    );
 
-         this.purchased = false;
 
-         // Find HTML button
+const mine =
+    new ProductionUnit(
+        "Mine",
+        1000,
+        100,
+        "mine-owned",
+        "buy-mine",
+        "mine-price"
+    );
 
-         this.button =
-             document.getElementById(buttonId);
 
-         // Listen for click
+const bank =
+    new ProductionUnit(
+        "Bank",
+        1500,
+        150,
+        "bank-owned",
+        "buy-bank",
+        "bank-price"
+    );
 
-         this.button.addEventListener("click", () => {
 
-             this.buy();
+const temple =
+    new ProductionUnit(
+        "Temple",
+        2000,
+        200,
+        "temple-owned",
+        "buy-temple",
+        "temple-price"
+    );
 
-         });
 
-     }
+const tower =
+    new ProductionUnit(
+        "Tower",
+        2500,
+        250,
+        "tower-owned",
+        "buy-tower",
+        "tower-price"
+    );
 
 
-     // ---------------------------------
-     // GENERAL BUY METHOD
-     // ---------------------------------
+// ---------------------------------
+// BASE UPGRADE CLASS
+// ---------------------------------
 
-     buy() {
+class Upgrade {
 
-         if (
-             cookies >= this.price
-             &&
-             this.purchased === false
-         ) {
+    constructor(
+        price,
+        buttonId
+    ) {
 
-             // Pay cookies
+        this.price = price;
 
-             cookies = cookies - this.price;
+        // Upgrade is not purchased yet
+        this.purchased = false;
 
-             // Mark upgrade as purchased
 
-             this.purchased = true;
+        // Upgrade button
+        this.button =
+            document.getElementById(buttonId);
 
-             // Update cookie counter
 
-             cookieDisplay.textContent = cookies;
+        // Buy upgrade when clicked
+        this.button.addEventListener("click", () => {
 
-             // Disable button
+            this.buy();
 
-             this.button.disabled = true;
+        });
 
-             // Purchase successful
+    }
 
-             return true;
 
-         }
+    // ---------------------------------
+    // GENERAL BUY METHOD
+    // ---------------------------------
 
-         // Purchase failed
+    buy() {
 
-         return false;
+        if (
+            cookies >= this.price
+            &&
+            this.purchased === false
+        ) {
 
-     }
+            // Pay cookies
+            cookies =
+                cookies - this.price;
 
- }
 
+            // Mark as purchased
+            this.purchased =
+                true;
 
- // ---------------------------------
- // PRODUCTION UPGRADE CLASS
- // INHERITS FROM UPGRADE
- // ---------------------------------
 
- class ProductionUpgrade extends Upgrade {
+            // Update cookie counter
+            cookieDisplay.textContent =
+                cookies;
 
-     constructor(
-         price,
-         buttonId,
-         productionUnit,
-         multiplier
-     ) {
 
-         // Call parent constructor
+            // Disable button
+            this.button.disabled =
+                true;
 
-         super(
-             price,
-             buttonId
-         );
+            // Show that the upgrade was purchased
+            this.button.textContent = "Purchased";
 
-         // Specific properties
+            // Purchase successful    
+            return true;
 
-         this.productionUnit =
-             productionUnit;
+        }
 
-         this.multiplier =
-             multiplier;
 
-     }
+        return false;
 
+    }
 
-     // ---------------------------------
-     // OVERRIDE BUY METHOD
-     // ---------------------------------
+}
 
-     buy() {
 
-         // Use general buy method
+// ---------------------------------
+// PRODUCTION UPGRADE CLASS
+// ---------------------------------
 
-         const success = super.buy();
+class ProductionUpgrade extends Upgrade {
 
-         // Apply effect if purchase succeeded
+    constructor(
+        price,
+        buttonId,
+        productionUnit,
+        multiplier
+    ) {
 
-      if (success) {
+        // Use constructor from Upgrade
+        super(
+            price,
+            buttonId
+        );
 
-        this.productionUnit.multiplier =
-        this.productionUnit.multiplier
-        * this.multiplier;
 
-        updateCPS();
+        // Unit affected by upgrade
+        this.productionUnit =
+            productionUnit;
+
+
+        // Example: 2 = x2
+        this.multiplier =
+            multiplier;
+
+    }
+
+
+    // ---------------------------------
+    // BUY PRODUCTION UPGRADE
+    // ---------------------------------
+
+    buy() {
+
+        // Use buy method from Upgrade
+        const success =
+            super.buy();
+
+
+        if (success) {
+
+            // Multiply production
+            this.productionUnit.multiplier =
+                this.productionUnit.multiplier
+                * this.multiplier;
+
+
+            // Update CPS immediately
+            updateCPS();
+
+
+            // Save after buying upgrade
+            saveGame();
+
+        } else if (this.purchased === false) {
+
+            alert("Not enough cookies!");
+
+        }
+
+    }
+
+}
+
+
+// ---------------------------------
+// CREATE UPGRADES
+// ---------------------------------
+
+const cursorUpgrade =
+    new ProductionUpgrade(
+        100,
+        "upgrade-cursor",
+        cursor,
+        2
+    );
+
+
+const grandmaUpgrade =
+    new ProductionUpgrade(
+        150,
+        "upgrade-grandma",
+        grandma,
+        2
+    );
+
+
+const farmUpgrade =
+    new ProductionUpgrade(
+        200,
+        "upgrade-farm",
+        farm,
+        2
+    );
+
+
+const factoryUpgrade =
+    new ProductionUpgrade(
+        250,
+        "upgrade-factory",
+        factory,
+        2
+    );
+
+
+const mineUpgrade =
+    new ProductionUpgrade(
+        300,
+        "upgrade-mine",
+        mine,
+        2
+    );
+
+
+// ---------------------------------
+// CPS CALCULATOR
+// ---------------------------------
+
+function calculateCPS() {
+
+    return (
+
+        cursor.getProductionPerSecond()
+        + grandma.getProductionPerSecond()
+        + farm.getProductionPerSecond()
+        + factory.getProductionPerSecond()
+        + mine.getProductionPerSecond()
+        + bank.getProductionPerSecond()
+        + temple.getProductionPerSecond()
+        + tower.getProductionPerSecond()
+
+    );
+
+}
+
+
+function updateCPS() {
+
+    cpsDisplay.textContent =
+        calculateCPS();
+
+}
+
+
+// ---------------------------------
+// AUTOMATIC PRODUCTION
+// ---------------------------------
+
+setInterval(function() {
+
+    // Add automatic production
+    cookies =
+        cookies
+        + calculateCPS();
+
+
+    // Update cookie counter
+    cookieDisplay.textContent =
+        cookies;
+
+
+    // Update CPS
+    updateCPS();
+
+}, 1000);
+
+
+// ---------------------------------
+// GOLDEN COOKIE
+// ---------------------------------
+
+function showGoldenCookie() {
+
+    goldenCookie.style.display =
+        "block";
+
+}
+
+
+function hideGoldenCookie() {
+
+    goldenCookie.style.display =
+        "none";
+
+}
+
+
+// Show Golden Cookie every 15 seconds
+setInterval(function() {
+
+    showGoldenCookie();
+
+
+    // Hide after 5 seconds
+    setTimeout(function() {
+
+        hideGoldenCookie();
+
+    }, 5000);
+
+}, 15000);
+
+
+// Golden Cookie gives 100 cookies
+goldenCookie.addEventListener(
+    "click",
+    function() {
+
+        cookies =
+            cookies + 100;
+
+
+        // Update counter
+        cookieDisplay.textContent =
+            cookies;
+
+
+        // Hide Golden Cookie
+        hideGoldenCookie();
+
+
+        // Save bonus
         saveGame();
 
-}
-
-     }
-
- }
+    }
+);
 
 
- // ---------------------------------
- // CREATE UPGRADE OBJECTS
- // ---------------------------------
+// ---------------------------------
+// ARRAYS
+// ---------------------------------
 
- const cursorUpgrade =
-     new ProductionUpgrade(
-         100,
-         "upgrade-cursor",
-         cursor,
-         2
-     );
+// All production units
+const productionUnits = [
 
-
- const grandmaUpgrade =
-     new ProductionUpgrade(
-         150,
-         "upgrade-grandma",
-         grandma,
-         2
-     );
-
-
- const farmUpgrade =
-     new ProductionUpgrade(
-         200,
-         "upgrade-farm",
-         farm,
-         2
-     );
-
-     const factoryUpgrade =
-         new ProductionUpgrade(
-            250,
-            "upgrade-factory",
-            factory,
-            2
-         );
-
-         const mineUpgrade =
-         new ProductionUpgrade(
-            300,
-            "upgrade-mine",
-            mine,
-            2
-         );
-         
- // ---------------------------------
- // CPS Calculator
- // ---------------------------------
-
-         function calculateCPS() {
-            return (
-                cursor.getProductionPerSecond() +
-                grandma.getProductionPerSecond() +
-                farm.getProductionPerSecond() +
-                factory.getProductionPerSecond() +
-                mine.getProductionPerSecond() +
-                bank.getProductionPerSecond() +
-                temple.getProductionPerSecond() +   
-                tower.getProductionPerSecond() 
-                
-            );
-         }
-
-
-         function updateCPS() {
-             cpsDisplay.textContent = calculateCPS();
-         }
-
-
- // ---------------------------------
- // AUTOMATIC PRODUCTION
- // ---------------------------------
-
- setInterval(function() {
-
-     cookies =
-         cookies
-         + calculateCPS();
-
-     cookieDisplay.textContent = cookies;
-     updateCPS();
-
- }, 1000);
-
-
- // ---------------------------------
- // Golden Cookies 
-
- function showGoldenCookie() {
-     goldenCookie.style.display = "block";
- }
-function hideGoldenCookie() {
-     goldenCookie.style.display = "none";
-}
-
- setInterval(function() {
-
-   showGoldenCookie();
-
-   setTimeout(function() {
-
-     hideGoldenCookie();
-
-   }, 5000);
-
- }, 15000);
-
- goldenCookie.addEventListener("click", function() {
-     cookies = cookies + 100;
-     cookieDisplay.textContent = cookies;
-     hideGoldenCookie();
-     saveGame();
- })
-
-
-
-//---------------------------------
-//LOOP For productionUnits and upgrades
-
-const productionUnits = [cursor,
+    cursor,
     grandma,
     farm,
-    mine,
     factory,
+    mine,
     bank,
     temple,
     tower
+
 ];
 
+
+// All upgrades
 const upgrades = [
+
     cursorUpgrade,
     grandmaUpgrade,
     farmUpgrade,
     factoryUpgrade,
     mineUpgrade
+
 ];
 
-//---------------------------------
-// Function Save Game
+
+// ---------------------------------
+// SAVE GAME
+// ---------------------------------
 
 function saveGame() {
 
-    localStorage.setItem("cookies", cookies);
+    // Save cookies
+    localStorage.setItem(
+        "cookies",
+        cookies
+    );
 
-    productionUnits.forEach(function(item) {
+
+    // Save all production units
+    productionUnits.forEach(function(unit) {
+
+        // Save amount
         localStorage.setItem(
-           item.name + "Amount",
-            item.amount
+            unit.name + "Amount",
+            unit.amount
         );
 
+
+        // Save current price
         localStorage.setItem(
-            item.name + "price",
-            item.price
+            unit.name + "Price",
+            unit.price
+        );
+
+    });
+
+
+    // Save upgrades
+    upgrades.forEach(function(upgrade) {
+
+        localStorage.setItem(
+            upgrade.button.id + "Purchased",
+            upgrade.purchased
+        );
+
+    });
+
+
+    // Save dark mode
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains(
+            "dark-mode"
         )
-});
-
-         upgrades.forEach(function(upgrade) {
-             localStorage.setItem(
-               upgrade.button.id + "Purchased",
-               upgrade.purchased
-         );
-         })
-
+    );
 
 }
 
 
-
-//---------------------------------
-// Function Load Game
+// ---------------------------------
+// LOAD GAME
+// ---------------------------------
 
 function loadGame() {
-    const savedCookies = localStorage.getItem("cookies");
 
-    if (savedCookies != null) {
-        cookies = Number(savedCookies);
-        cookieDisplay.textContent = cookies;
+    // ---------------------------------
+    // LOAD COOKIES
+    // ---------------------------------
+
+    const savedCookies =
+        localStorage.getItem("cookies");
+
+
+    if (savedCookies !== null) {
+
+        cookies =
+            Number(savedCookies);
+
+
+        cookieDisplay.textContent =
+            cookies;
+
     }
-    productionUnits.forEach(function(item) {
-        const savedAmount = localStorage.getItem(item.name + "Amount");
-        if (savedAmount != null) {
-            item.amount = Number(savedAmount);
-            item.display.textContent = item.amount;
+
+
+    // ---------------------------------
+    // LOAD PRODUCTION UNITS
+    // ---------------------------------
+
+    productionUnits.forEach(function(unit) {
+
+        const savedAmount =
+            localStorage.getItem(
+                unit.name + "Amount"
+            );
+
+
+        const savedPrice =
+            localStorage.getItem(
+                unit.name + "Price"
+            );
+
+
+        // Restore amount
+        if (savedAmount !== null) {
+
+            unit.amount =
+                Number(savedAmount);
+
+
+            unit.display.textContent =
+                unit.amount;
+
         }
-        const savedPrice = localStorage.getItem(item.name + "price");
-        if (savedPrice != null) {
-            item.price = Number(savedPrice);
-            item.priceDisplay.textContent = item.price;
+
+
+        // Restore price
+        if (savedPrice !== null) {
+
+            unit.price =
+                Number(savedPrice);
+
+
+            unit.priceDisplay.textContent =
+                unit.price;
+
         }
-    })
+
+    });
+
+
+    // Reset all multipliers before restoring upgrades
+    productionUnits.forEach(function(unit) {
+
+        unit.multiplier = 1;
+
+    });
+
+
+    // ---------------------------------
+    // LOAD UPGRADES
+    // ---------------------------------
 
     upgrades.forEach(function(upgrade) {
 
-    const savedPurchased =
+        const savedPurchased =
+            localStorage.getItem(
+                upgrade.button.id
+                + "Purchased"
+            );
+
+
+        if (savedPurchased === "true") {
+
+            // Mark as purchased
+            upgrade.purchased =
+                true;
+
+
+            // Disable button
+            upgrade.button.disabled =
+                true;
+                
+            // Change button text
+            upgrade.button.textContent = "Purchased";
+
+
+            // Restore upgrade effect
+            upgrade.productionUnit.multiplier =
+                upgrade.productionUnit.multiplier
+                * upgrade.multiplier;
+
+        }
+
+    });
+
+
+    // ---------------------------------
+    // LOAD DARK MODE
+    // ---------------------------------
+
+    const savedDarkMode =
         localStorage.getItem(
-            upgrade.button.id + "Purchased"
+            "darkMode"
         );
 
-    if (savedPurchased === "true") {
 
-        upgrade.purchased = true;
+    if (savedDarkMode === "true") {
 
-        upgrade.button.disabled = true;
+        document.body.classList.add(
+            "dark-mode"
+        );
 
-        upgrade.productionUnit.multiplier =
-            upgrade.productionUnit.multiplier
-            * upgrade.multiplier;
+
+        darkModeButton.textContent =
+            "Light Mode";
+
+    } else {
+
+        document.body.classList.remove(
+            "dark-mode"
+        );
+
+
+        darkModeButton.textContent =
+            "Dark Mode";
 
     }
 
-});
+
+    // Update CPS after loading
     updateCPS();
+
 }
 
-// setInterval(saveGame, 5000);
-setInterval(function() {
 
-    saveGame();
+// ---------------------------------
+// AUTO SAVE
+// ---------------------------------
 
-},1000);
+// Save every second
+// Store interval inside autoSave
+// so we can stop it when resetting
 
+const autoSave =
+    setInterval(
+        saveGame,
+        1000
+    );
+
+
+// ---------------------------------
+// RESET GAME
+// ---------------------------------
+
+resetButton.addEventListener(
+    "click",
+    function() {
+
+        // Ask before resetting
+        const confirmReset =
+            confirm(
+                "Are you sure you want to reset the game?"
+            );
+
+
+        if (confirmReset) {
+
+            // Stop automatic saving
+            clearInterval(autoSave);
+
+
+            // Delete all saved data
+            localStorage.clear();
+
+
+            // Reload page
+            location.reload();
+
+        }
+
+    }
+);
+
+
+// ---------------------------------
+// DARK MODE
+// ---------------------------------
+
+darkModeButton.addEventListener(
+    "click",
+    function() {
+
+        // Add/remove dark mode
+        document.body.classList.toggle(
+            "dark-mode"
+        );
+
+
+        // Change button text
+        if (
+            document.body.classList.contains(
+                "dark-mode"
+            )
+        ) {
+
+            darkModeButton.textContent =
+                "Light Mode";
+
+        } else {
+
+            darkModeButton.textContent =
+                "Dark Mode";
+
+        }
+
+
+        // Save selected mode
+        saveGame();
+
+    }
+);
+
+
+// ---------------------------------
+// START GAME
+// ---------------------------------
+
+// Load saved progress
 loadGame();
-
-// Reset the game
-resetButton.addEventListener("click", function() {
-
-    localStorage.clear();
-
-    location.reload();
-
-});
-
-
-

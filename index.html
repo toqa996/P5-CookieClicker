@@ -1,21 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Toqa's Cookie Clicker</title>
 
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
+
+    <!-- ---------------------------------
+         HEADER
+    ---------------------------------- -->
 
     <header>
 
@@ -23,42 +26,71 @@
 
         <p>Click the cookie and earn points!</p>
 
+        <!-- Switch between normal and dark mode -->
+        <button id="dark-mode">
+            Dark Mode
+        </button>
+
+        
 
     </header>
 
 
     <main>
 
-        <!-- GAME SECTION -->
+        <!-- ---------------------------------
+             GAME SECTION
+        ---------------------------------- -->
 
         <section class="game">
 
             <h2>My Cookies</h2>
 
+            <!-- Current number of cookies -->
             <h1 id="cookie-count">0</h1>
 
-            <button id="cookie-button"
-                    aria-label="Click cookie">
 
-                <img src="cookie.png"
-                     alt="Cookie">
+            <!-- Main cookie button -->
+            <button
+                id="cookie-button"
+                aria-label="Click cookie"
+            >
+
+                <img
+                    src="cookie.png"
+                    alt="Cookie"
+                >
 
             </button>
 
+
             <p>Click the cookie to earn points!</p>
-            
-            <p>Cookies per second: <span id="cps">0</span></p>
 
-            <button id="reset-game">Reset Game</button>
-            
-            <button id="golden-cookies">Golden Cookies</button>
 
-            
+            <!-- Cookies produced automatically each second -->
+            <p>
+                Cookies per second:
+                <span id="cps">0</span>
+            </p>
+
+
+            <!-- Reset saved game -->
+            <button id="reset-game">
+                Reset Game
+            </button>
+
+
+            <!-- Special event -->
+            <button id="golden-cookies">
+                Golden Cookie
+            </button>
 
         </section>
 
 
-        <!-- SHOP SECTION -->
+        <!-- ---------------------------------
+             SHOP SECTION
+        ---------------------------------- -->
 
         <section class="shop">
 
@@ -68,7 +100,6 @@
 
 
                 <!-- CURSOR -->
-
                 <div class="shop-item">
 
                     <h3>Cursor</h3>
@@ -91,7 +122,6 @@
 
 
                 <!-- GRANDMA -->
-
                 <div class="shop-item">
 
                     <h3>Grandma</h3>
@@ -114,7 +144,6 @@
 
 
                 <!-- FARM -->
-
                 <div class="shop-item">
 
                     <h3>Farm</h3>
@@ -137,7 +166,6 @@
 
 
                 <!-- FACTORY -->
-
                 <div class="shop-item">
 
                     <h3>Factory</h3>
@@ -160,7 +188,6 @@
 
 
                 <!-- MINE -->
-
                 <div class="shop-item">
 
                     <h3>Mine</h3>
@@ -183,7 +210,6 @@
 
 
                 <!-- BANK -->
-
                 <div class="shop-item">
 
                     <h3>Bank</h3>
@@ -206,7 +232,6 @@
 
 
                 <!-- TEMPLE -->
-
                 <div class="shop-item">
 
                     <h3>Temple</h3>
@@ -229,7 +254,6 @@
 
 
                 <!-- TOWER -->
-
                 <div class="shop-item">
 
                     <h3>Tower</h3>
@@ -255,7 +279,9 @@
         </section>
 
 
-        <!-- UPGRADES SECTION -->
+        <!-- ---------------------------------
+             UPGRADES SECTION
+        ---------------------------------- -->
 
         <section class="upgrade">
 
@@ -264,98 +290,93 @@
             <div class="upgrade-container">
 
 
-            <!-- CURSOR UPGRADE -->
+                <!-- CURSOR UPGRADE -->
+                <div class="upgrade-item">
 
-            <div class="upgrade-item">
+                    <h3>Better Mouse</h3>
 
-                <h3>Better Mouse</h3>
+                    <p>Double Cursor production!</p>
 
-                <p>Double Cursor production!</p>
+                    <p>Price: 100 Cookies</p>
 
-                <p>Price: 100 Cookies</p>
+                    <button id="upgrade-cursor">
+                        Upgrade Cursor
+                    </button>
 
-                <button id="upgrade-cursor">
-                    Upgrade Cursor 
-                </button>
-
-            </div>
-
-
-            <!-- GRANDMA UPGRADE -->
-
-            <div class="upgrade-item">
-
-                <h3>Super Grandma</h3>
-
-                <p>Double Grandma production!</p>
-
-                <p>Price: 150 Cookies</p>
-
-                <button id="upgrade-grandma">
-                    Upgrade Grandma 
-                </button>
-
-            </div>
+                </div>
 
 
-            <!-- FARM UPGRADE -->
+                <!-- GRANDMA UPGRADE -->
+                <div class="upgrade-item">
 
-            <div class="upgrade-item">
+                    <h3>Super Grandma</h3>
 
-                <h3>Better Farming</h3>
+                    <p>Double Grandma production!</p>
 
-                <p>Double Farm production!</p>
+                    <p>Price: 150 Cookies</p>
 
-                <p>Price: 200 Cookies</p>
+                    <button id="upgrade-grandma">
+                        Upgrade Grandma
+                    </button>
 
-                <button id="upgrade-farm">
-                    Upgrade Farm 
-                </button>
+                </div>
 
-            </div>
 
-                <!-- Factory UPGRADE -->
+                <!-- FARM UPGRADE -->
+                <div class="upgrade-item">
 
-            <div class="upgrade-item">
+                    <h3>Better Farming</h3>
 
-                <h3>Better Factory</h3>
+                    <p>Double Farm production!</p>
 
-                <p>Double Factory production!</p>
+                    <p>Price: 200 Cookies</p>
 
-                <p>Price: 250 Cookies</p>
+                    <button id="upgrade-farm">
+                        Upgrade Farm
+                    </button>
 
-                <button id="upgrade-factory">
-                    Upgrade Factory 
-                </button>
+                </div>
 
-            </div>
 
-                <!-- Mine UPGRADE -->
+                <!-- FACTORY UPGRADE -->
+                <div class="upgrade-item">
 
-            <div class="upgrade-item">
+                    <h3>Better Factory</h3>
 
-                <h3>Better Mine</h3>
+                    <p>Double Factory production!</p>
 
-                <p>Double Mine production!</p>
+                    <p>Price: 250 Cookies</p>
 
-                <p>Price: 300 Cookies</p>
+                    <button id="upgrade-factory">
+                        Upgrade Factory
+                    </button>
 
-                <button id="upgrade-mine">
-                    Upgrade Mine 
-                </button>
+                </div>
 
-            </div>
+
+                <!-- MINE UPGRADE -->
+                <div class="upgrade-item">
+
+                    <h3>Better Mine</h3>
+
+                    <p>Double Mine production!</p>
+
+                    <p>Price: 300 Cookies</p>
+
+                    <button id="upgrade-mine">
+                        Upgrade Mine
+                    </button>
+
+                </div>
+
             </div>
 
         </section>
-
-        
 
     </main>
 
 
     <!-- JAVASCRIPT -->
-
     <script src="script.js"></script>
 
 </body>

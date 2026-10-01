@@ -1,4 +1,3 @@
-
 /* ---------------------------------
    GENERAL STYLE
 --------------------------------- */
@@ -9,7 +8,6 @@
 
 body {
     margin: 0;
-
     padding: 0;
 
     font-family: Arial, sans-serif;
@@ -18,7 +16,6 @@ body {
 
     color: #5c4033;
 }
-
 
 
 /* ---------------------------------
@@ -47,6 +44,74 @@ header p {
     color: #80634c;
 
     font-size: 16px;
+}
+
+
+/* ---------------------------------
+   DARK MODE BUTTON
+--------------------------------- */
+
+#dark-mode {
+    display: block;
+
+    margin: 15px auto 0;
+
+    background-color: #b99470;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+#dark-mode:hover {
+    background-color: #96704d;
+}
+
+
+/* ---------------------------------
+   DARK MODE THEME
+--------------------------------- */
+
+.dark-mode {
+    background-color: #2b2b2b;
+
+    color: white;
+}
+
+.dark-mode header {
+    background-color: #3a3a3a;
+
+    border-bottom-color: #555;
+}
+
+.dark-mode .game,
+.dark-mode .shop,
+.dark-mode .upgrade {
+    background-color: #3b3b3b;
+
+    border-color: #555;
+}
+
+.dark-mode .shop-item,
+.dark-mode .upgrade-item {
+    background-color: #4a4a4a;
+
+    border-color: #666;
+}
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode p {
+    color: white;
 }
 
 
@@ -86,7 +151,9 @@ main {
 
     text-align: center;
 
-    box-shadow: 0 4px 10px rgba(92, 64, 51, 0.1);
+    box-shadow:
+        0 4px 10px
+        rgba(92, 64, 51, 0.1);
 }
 
 
@@ -152,43 +219,80 @@ h3 {
 
     object-fit: contain;
 
-    transition: transform 0.15s;
+    transition:
+        transform 0.15s;
 }
 
+
+/* Mouse hover effect */
 #cookie-button:hover img {
     transform: scale(1.08);
 }
 
+
+/* Click effect */
 #cookie-button:active img {
     transform: scale(0.92);
 }
 
-/*Golden Cookies Button*/
-#golden-cookies {
-    display: none;
-    margin: 15px auto 0;
-    color: white;
-    background-color:  #9c6b43;
-    border: none;
-    border-radius: 30px;
-    padding: 20px;
-    cursor: pointer;
-}
 
 /* ---------------------------------
-/*Reset Button*/
+   RESET BUTTON
+--------------------------------- */
+
 #reset-game {
+    display: block;
+
+    margin: 15px auto 0;
+
     background-color: #b99470;
+
     color: white;
+
     border: none;
+
     border-radius: 8px;
+
     padding: 10px 15px;
-    margin-top: 15px;
+
     cursor: pointer;
+
     font-size: 14px;
 }
 
+#reset-game:hover {
+    background-color: #96704d;
+}
 
+
+/* ---------------------------------
+   GOLDEN COOKIE
+--------------------------------- */
+
+#golden-cookies {
+    /* Hidden until JavaScript shows it */
+    display: none;
+
+    margin: 15px auto 0;
+
+    background-color: #d4a017;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 30px;
+
+    padding: 15px 20px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+#golden-cookies:hover {
+    transform: scale(1.05);
+}
 
 
 /* ---------------------------------
@@ -207,7 +311,8 @@ h3 {
 .shop-grid {
     display: grid;
 
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
 
     gap: 15px;
 }
@@ -265,7 +370,10 @@ h3 {
 
     margin-top: 10px;
 
-    transition: background-color 0.2s;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s;
 }
 
 .shop-item button:hover {
@@ -277,18 +385,17 @@ h3 {
    UPGRADE SECTION
 --------------------------------- */
 
-.upgrade-container {
-     display: grid;
-
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    gap: 15px;
-}
-
-
 .upgrade {
     width: 440px;
-    
+}
+
+.upgrade-container {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 15px;
 }
 
 
@@ -338,7 +445,10 @@ h3 {
 
     font-size: 14px;
 
-    transition: background-color 0.2s;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s;
 }
 
 .upgrade-item button:hover {
@@ -352,11 +462,11 @@ h3 {
 
 button:disabled,
 button:disabled:hover {
-
     background-color: #d8d0c7;
 
     color: #8c8176;
 
+    cursor: default;
 }
 
 
@@ -364,6 +474,7 @@ button:disabled:hover {
    RESPONSIVE DESIGN
 --------------------------------- */
 
+/* Tablets */
 @media (max-width: 900px) {
 
     main {
@@ -383,6 +494,7 @@ button:disabled:hover {
 }
 
 
+/* Mobile phones */
 @media (max-width: 600px) {
 
     main {
@@ -395,7 +507,10 @@ button:disabled:hover {
         padding: 15px;
     }
 
-    .shop-grid {
+    .shop-grid,
+    .upgrade-container {
+        grid-template-columns: 1fr;
+
         gap: 10px;
     }
 
@@ -416,7 +531,3 @@ button:disabled:hover {
     }
 
 }
-
-
-
-
