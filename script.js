@@ -21,6 +21,9 @@
 
 const goldenCookie = document.getElementById("golden-cookies");
 
+const resetButton =
+    document.getElementById("reset-game");
+
 
 
  // ---------------------------------
@@ -113,6 +116,7 @@ const goldenCookie = document.getElementById("golden-cookies");
              this.priceDisplay.textContent = this.price;
 
              updateCPS();
+             saveGame();
 
          }
 
@@ -347,6 +351,7 @@ const goldenCookie = document.getElementById("golden-cookies");
         * this.multiplier;
 
         updateCPS();
+        saveGame();
 
 }
 
@@ -467,6 +472,126 @@ function hideGoldenCookie() {
      cookies = cookies + 100;
      cookieDisplay.textContent = cookies;
      hideGoldenCookie();
+     saveGame();
  })
+
+
+
+//---------------------------------
+//LOOP For productionUnits and upgrades
+
+const productionUnits = [cursor,
+    grandma,
+    farm,
+    mine,
+    factory,
+    bank,
+    temple,
+    tower
+];
+
+const upgrades = [
+    cursorUpgrade,
+    grandmaUpgrade,
+    farmUpgrade,
+    factoryUpgrade,
+    mineUpgrade
+];
+
+//---------------------------------
+// Function Save Game
+
+function saveGame() {
+
+    localStorage.setItem("cookies", cookies);
+
+    productionUnits.forEach(function(item) {
+        localStorage.setItem(
+           item.name + "Amount",
+            item.amount
+        );
+
+        localStorage.setItem(
+            item.name + "price",
+            item.price
+        )
+});
+
+         upgrades.forEach(function(upgrade) {
+             localStorage.setItem(
+               upgrade.button.id + "Purchased",
+               upgrade.purchased
+         );
+         })
+
+
+}
+
+
+
+//---------------------------------
+// Function Load Game
+
+function loadGame() {
+    const savedCookies = localStorage.getItem("cookies");
+
+    if (savedCookies != null) {
+        cookies = Number(savedCookies);
+        cookieDisplay.textContent = cookies;
+    }
+    productionUnits.forEach(function(item) {
+        const savedAmount = localStorage.getItem(item.name + "Amount");
+        if (savedAmount != null) {
+            item.amount = Number(savedAmount);
+            item.display.textContent = item.amount;
+        }
+        const savedPrice = localStorage.getItem(item.name + "price");
+        if (savedPrice != null) {
+            item.price = Number(savedPrice);
+            item.priceDisplay.textContent = item.price;
+        }
+    })
+
+    upgrades.forEach(function(upgrade) {
+
+    const savedPurchased =
+        localStorage.getItem(
+            upgrade.button.id + "Purchased"
+        );
+
+    if (savedPurchased === "true") {
+
+        upgrade.purchased = true;
+
+        upgrade.button.disabled = true;
+
+        upgrade.productionUnit.multiplier =
+            upgrade.productionUnit.multiplier
+            * upgrade.multiplier;
+
+    }
+
+});
+    updateCPS();
+}
+
+// setInterval(saveGame, 5000);
+setInterval(function() {
+
+    saveGame();
+
+},1000);
+
+loadGame();
+
+// Reset the game
+resetButton.addEventListener("click", function() {
+
+    localStorage.clear();
+
+    location.reload();
+
+});
+
 
 

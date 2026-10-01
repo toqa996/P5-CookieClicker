@@ -9,6 +9,7 @@
 
 body {
     margin: 0;
+
     padding: 0;
 
     font-family: Arial, sans-serif;
@@ -17,6 +18,7 @@ body {
 
     color: #5c4033;
 }
+
 
 
 /* ---------------------------------
@@ -165,11 +167,25 @@ h3 {
 #golden-cookies {
     display: none;
     margin: 15px auto 0;
+    color: white;
     background-color:  #9c6b43;
     border: none;
     border-radius: 30px;
     padding: 20px;
     cursor: pointer;
+}
+
+/* ---------------------------------
+/*Reset Button*/
+#reset-game {
+    background-color: #b99470;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 
@@ -400,5 +416,7 @@ button:disabled:hover {
     }
 
 }
+
+
 
 
