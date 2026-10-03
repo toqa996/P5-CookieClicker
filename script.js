@@ -411,6 +411,75 @@ class ProductionUpgrade extends Upgrade {
 
 }
 
+// ---------------------------------
+// DiscountUpgrade
+// ---------------------------------
+
+class DiscountUpgrade extends Upgrade {
+
+    constructor(
+        price,
+        buttonId,
+        productionUnit,
+        discount
+    ) {
+
+        // Use constructor from Upgrade
+        super(
+            price,
+            buttonId
+        );
+
+
+        // Unit affected by upgrade
+        this.productionUnit =
+            productionUnit;
+
+
+        // Example: 0.2 = 20% discount
+        this.discount =
+            discount;
+
+    }
+
+    buy() {
+
+        const success =
+            super.buy();
+
+
+        if (success) {
+
+            // Apply discount
+            this.productionUnit.price = Math.ceil(
+                this.productionUnit.price
+                * (1 - this.discount) 
+            );
+
+
+           // Update the price on the screen
+           this.productionUnit.priceDisplay.textContent =
+              this.productionUnit.price;
+
+
+            // Save after buying upgrade
+            saveGame();
+
+        } else if (this.purchased === false) {
+
+            alert("Not enough cookies!");
+    }
+  }
+}
+// ---------------------------------
+// CREATE Discouts UPGRADES
+// ---------------------------------
+const grandmaDiscount =
+    new DiscountUpgrade(
+        400,
+        "discount-grandma",
+        grandma,
+        0.2);
 
 // ---------------------------------
 // CREATE UPGRADES
@@ -551,9 +620,7 @@ setInterval(function() {
 
 
 // Golden Cookie gives 100 cookies
-goldenCookie.addEventListener(
-    "click",
-    function() {
+goldenCookie.addEventListener( "click", function() {
 
         cookies =
             cookies + 100;
@@ -601,7 +668,8 @@ const upgrades = [
     grandmaUpgrade,
     farmUpgrade,
     factoryUpgrade,
-    mineUpgrade
+    mineUpgrade,
+    grandmaDiscount
 
 ];
 
@@ -763,7 +831,7 @@ function loadGame() {
             // Disable button
             upgrade.button.disabled =
                 true;
-                
+
             // Change button text
             upgrade.button.textContent = "Purchased";
 
