@@ -471,6 +471,61 @@ class DiscountUpgrade extends Upgrade {
     }
   }
 }
+
+// ---------------------------------
+// GrandmaBonusUpgrade
+// ---------------------------------
+
+class GrandmaBonusUpgrade extends Upgrade {
+
+    constructor(
+        price,
+        buttonId,
+        grandmaUnit,
+        farmUnit,
+        bonus
+    ) {
+
+        super(
+            price,
+            buttonId
+    )
+
+     this.grandmaUnit =
+            grandmaUnit;
+
+
+        this.farmUnit =
+            farmUnit;
+
+
+        this.bonus =
+            bonus;
+    }
+
+    buy() {
+         const success =
+        super.buy();
+
+    if (success) {
+
+        updateCPS();
+
+        saveGame();
+
+    } else if (this.purchased === false) {
+
+        alert("Not enough cookies!");
+    }
+    }
+
+}
+
+
+
+
+
+
 // ---------------------------------
 // CREATE Discouts UPGRADES
 // ---------------------------------
@@ -481,6 +536,16 @@ const grandmaDiscount =
         grandma,
         0.2);
 
+// ---------------------------------
+// CREATE GrandmaBonus 
+// ---------------------------------
+const grandmaBonus = 
+    new GrandmaBonusUpgrade(
+        500,
+        "grandma-bonus",
+        grandma,
+        farm,
+        1);
 // ---------------------------------
 // CREATE UPGRADES
 // ---------------------------------
@@ -536,10 +601,21 @@ const mineUpgrade =
 
 function calculateCPS() {
 
+    let grandmaProduction = 
+    grandma.getProductionPerSecond();
+
+    if(grandmaBonus.purchased) {
+        grandmaProduction =
+          grandma.amount *
+          (grandma.production
+            + farm.amount * grandmaBonus.bonus)
+            * grandma.multiplier;
+        }
+
     return (
 
         cursor.getProductionPerSecond()
-        + grandma.getProductionPerSecond()
+        + grandmaProduction
         + farm.getProductionPerSecond()
         + factory.getProductionPerSecond()
         + mine.getProductionPerSecond()
@@ -669,7 +745,8 @@ const upgrades = [
     farmUpgrade,
     factoryUpgrade,
     mineUpgrade,
-    grandmaDiscount
+    grandmaDiscount,
+    grandmaBonus
 
 ];
 
