@@ -3,7 +3,8 @@
 // ---------------------------------
 
 let cookies = 0;
-let cookieBeginnerUnlocked = false;
+let cookieBeginnerUnlocked = false; 
+let totalCookiesEarned = 0; // total cookies earned, including cookies lost when resetting
 
 
 // ---------------------------------
@@ -31,6 +32,9 @@ const darkModeButton =
 const cookieBeginnerDisplay =
     document.getElementById("cookie-beginner");
 
+const totalCookiesDisplay =
+    document.getElementById("total-cookies-earned");
+
 
 // ---------------------------------
 // CLICK ON COOKIE
@@ -40,12 +44,16 @@ cookieButton.addEventListener("click", function() {
 
     // Add one cookie
     cookies = cookies + 1;
+    
+    totalCookiesEarned = totalCookiesEarned + 1; 
 
     // Update cookie counter
     cookieDisplay.textContent = cookies;
 
      // Call function to check achievements
     checkAchievements();
+
+    updateStatistics();
 
 });
 
@@ -54,20 +62,33 @@ cookieButton.addEventListener("click", function() {
 // ---------------------------------
 
 function checkAchievements() {
+
     if (cookies >= 100 && cookieBeginnerUnlocked == false){
 
         cookieBeginnerUnlocked = true;
 
         cookies = cookies + 50;
 
+        totalCookiesEarned = totalCookiesEarned + 50;
+
         cookieDisplay.textContent = cookies;
 
         cookieBeginnerDisplay.textContent = "Cookie Beginner Unlocked (+50 Cookies)";
 
          saveGame();
+
+         updateStatistics();
     }
 }
 
+// ---------------------------------
+// Update Total Cookies Earned
+// ---------------------------------
+function updateStatistics() {
+
+    totalCookiesDisplay.textContent =
+        totalCookiesEarned;
+}
 
 // ---------------------------------
 // PRODUCTION UNIT CLASS
@@ -529,15 +550,16 @@ class GrandmaBonusUpgrade extends Upgrade {
     }
 
     buy() {
+
         const success = super.buy();
 
-    if (success) {
+      if (success) {
 
         updateCPS();
 
         saveGame();
 
-    } else if (this.purchased === false) {
+      } else if (this.purchased === false) {
 
         alert("Not enough cookies!");
     }
@@ -670,15 +692,23 @@ function updateCPS() {
 
 setInterval(function() {
 
+    const earnedCookies = calculateCPS();
+
     // Add automatic production
-    cookies = cookies + calculateCPS();
+    cookies = cookies + earnedCookies;
+
+    // Add only earned cookies to statistics
+    totalCookiesEarned =
+        totalCookiesEarned + earnedCookies;
 
 
     // Update cookie counter
     cookieDisplay.textContent = cookies;
 
-    //Check for achievements
-    checkAchievements(); 
+    updateStatistics();
+
+    // Check for achievements
+    checkAchievements();
 
     // Update CPS
     updateCPS();
@@ -725,13 +755,15 @@ setInterval(function() {
 // Golden Cookie gives 100 cookies
 goldenCookie.addEventListener( "click", function() {
 
-        cookies =
-            cookies + 100;
+        cookies =  cookies + 100;
+
+        totalCookiesEarned = totalCookiesEarned + 100;
 
 
         // Update counter
-        cookieDisplay.textContent =
-            cookies;
+        cookieDisplay.textContent = cookies;
+
+        updateStatistics();
 
 
         // Hide Golden Cookie
@@ -830,6 +862,13 @@ function saveGame() {
         cookieBeginnerUnlocked
     );
 
+    // Save total cookies earned
+
+    localStorage.setItem(
+    "totalCookiesEarned",
+    totalCookiesEarned
+); 
+
 }
 
 
@@ -920,31 +959,42 @@ function loadGame() {
     upgrades.forEach(function(upgrade) {
 
         const savedPurchased =
-            localStorage.getItem(
-                upgrade.button.id
-                + "Purchased"
-            );
+            localStorage.getItem(upgrade.button.id
+                + "Purchased");
 
 
         if (savedPurchased === "true") {
 
             // Mark as purchased
-            upgrade.purchased =
-                true;
+            upgrade.purchased = true;
 
 
             // Disable button
-            upgrade.button.disabled =
-                true;
+            upgrade.button.disabled = true;
 
             // Change button text
             upgrade.button.textContent = "Purchased";
 
 
-            // Restore upgrade effect
-            upgrade.productionUnit.multiplier =
-                upgrade.productionUnit.multiplier
-                * upgrade.multiplier;
+            // Restore ProductionUpgrade effect
+            if (upgrade instanceof ProductionUpgrade) {
+
+                upgrade.productionUnit.multiplier *=
+                    upgrade.multiplier;
+            }
+
+
+          // Restore DiscountUpgrade effect
+            if (upgrade instanceof DiscountUpgrade) {
+
+                upgrade.productionUnit.price =
+                    Math.ceil( upgrade.productionUnit.price
+                        * (1 - upgrade.discount)
+                    );
+
+                upgrade.productionUnit.priceDisplay.textContent =
+                    upgrade.productionUnit.price;
+            }
 
         }
 
@@ -998,7 +1048,20 @@ function loadGame() {
 
          cookieBeginnerDisplay.textContent =
         "Cookie Beginner: Unlocked (+50 Cookies)";
-}
+  }
+
+
+    const savedTotalCookies =
+      localStorage.getItem(
+        "totalCookiesEarned"
+    );
+
+       if (savedTotalCookies !== null) {
+
+        totalCookiesEarned =  Number(savedTotalCookies);
+
+       updateStatistics();
+  }
 
 
 
