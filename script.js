@@ -3,8 +3,12 @@
 // ---------------------------------
 
 let cookies = 0;
+
 let cookieBeginnerUnlocked = false; 
+
 let totalCookiesEarned = 0; // total cookies earned, including cookies lost when resetting
+
+let totalPlaytime = 0; // total time spent playing, in seconds
 
 
 // ---------------------------------
@@ -34,6 +38,9 @@ const cookieBeginnerDisplay =
 
 const totalCookiesDisplay =
     document.getElementById("total-cookies-earned");
+
+const totalPlaytimeDisplay =
+    document.getElementById("total-playtime");
 
 
 // ---------------------------------
@@ -88,7 +95,22 @@ function updateStatistics() {
 
     totalCookiesDisplay.textContent =
         totalCookiesEarned;
+    
+      totalPlaytimeDisplay.textContent =
+         totalPlaytime;
 }
+
+// ---------------------------------
+// Increase Playtime
+// ---------------------------------
+setInterval(function() {
+
+    totalPlaytime = totalPlaytime + 1;
+
+    updateStatistics();
+
+},1000);
+
 
 // ---------------------------------
 // PRODUCTION UNIT CLASS
@@ -858,16 +880,22 @@ function saveGame() {
 
     // Save cookie beginner unlocked
     localStorage.setItem(
-        "cookieBeginnerUnlocked",
-        cookieBeginnerUnlocked
+        "cookieBeginnerUnlocked", cookieBeginnerUnlocked
     );
 
     // Save total cookies earned
 
     localStorage.setItem(
-    "totalCookiesEarned",
-    totalCookiesEarned
-); 
+        "totalCookiesEarned", totalCookiesEarned
+    ); 
+
+    //save total playtime
+
+    localStorage.setItem(
+    "totalPlaytime", totalPlaytime
+);
+
+
 
 }
 
@@ -987,11 +1015,6 @@ function loadGame() {
           // Restore DiscountUpgrade effect
             if (upgrade instanceof DiscountUpgrade) {
 
-                upgrade.productionUnit.price =
-                    Math.ceil( upgrade.productionUnit.price
-                        * (1 - upgrade.discount)
-                    );
-
                 upgrade.productionUnit.priceDisplay.textContent =
                     upgrade.productionUnit.price;
             }
@@ -1062,6 +1085,19 @@ function loadGame() {
 
        updateStatistics();
   }
+
+  const savedPlaytime =
+    localStorage.getItem(
+        "totalPlaytime"
+    );
+
+if (savedPlaytime !== null) {
+
+    totalPlaytime =
+        Number(savedPlaytime);
+
+    updateStatistics();
+}
 
 
 
