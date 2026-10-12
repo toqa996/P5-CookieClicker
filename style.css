@@ -115,6 +115,7 @@ header p {
 }
 
 
+
 /* ---------------------------------
    MAIN LAYOUT
 --------------------------------- */
@@ -261,6 +262,34 @@ h3 {
 }
 
 #reset-game:hover {
+    background-color: #96704d;
+}
+
+
+/* ---------------------------------
+prestige-button
+--------------------------------- */
+#prestige-button {
+    display: block;
+
+    margin: 15px auto 0;
+
+    background-color: #b99470;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 15px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+#prestige-button:hover {
     background-color: #96704d;
 }
 
