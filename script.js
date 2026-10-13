@@ -52,6 +52,8 @@ const prestigeLevelDisplay =
 const prestigeButton =
     document.getElementById("prestige-button");
 
+const messageBox = document.getElementById("message");
+
 
 // ---------------------------------
 // CLICK ON COOKIE
@@ -74,6 +76,18 @@ cookieButton.addEventListener("click", function() {
     updateStatistics();
 
 });
+
+// ---------------------------------
+// show message 
+// ---------------------------------
+
+function clearMessage() {
+    
+document.getElementById("message").textContent = "";
+
+}
+
+setInterval (clearMessage, 5000);
 
 
 
@@ -172,6 +186,7 @@ class ProductionUnit {
         // Price in HTML
         this.priceDisplay = document.getElementById(priceId);
 
+        this.priceDisplay.textContent = this.price;
 
         // Buy unit when button is clicked
         this.button.addEventListener("click", () => {
@@ -225,7 +240,8 @@ class ProductionUnit {
 
         } else {
 
-            alert("Not enough cookies!");
+            // Show error message
+            messageBox.textContent = "You don't have enough cookies!";
 
         }
 
@@ -248,97 +264,200 @@ class ProductionUnit {
 
 }
 
-
 // ---------------------------------
-// CREATE PRODUCTION UNITS
+// LOAD PRODUCTION UNITS FROM JSON
 // ---------------------------------
 
-const cursor =
-    new ProductionUnit(
-        "Cursor",
-        10,
-        1,
-        "owned",
-        "buy",
-        "price"
+const productionUnits = [];
+
+let cursor;
+let grandma;
+let farm;
+let factory;
+let mine;
+let bank;
+let temple;
+let tower;
+
+let cursorUpgrade;
+let grandmaUpgrade;
+let farmUpgrade;
+let factoryUpgrade;
+let mineUpgrade;
+
+let grandmaDiscount;
+let grandmaBonus;
+
+let upgrades = [];
+
+
+fetch("productionUnits.json").then(function(response){
+
+        return response.json();
+
+    }).then(function(data) {
+
+        // Create all production units
+        data.forEach(function(unitData) {
+
+            const unit = new ProductionUnit(
+                    unitData.name,
+                    unitData.price,
+                    unitData.production,
+                    unitData.displayId,
+                    unitData.buttonId,
+                    unitData.priceId
+                );
+
+            productionUnits.push(unit);
+
+            
+
+        });
+
+        // Find each production unit by name
+
+        cursor = productionUnits.find(function(unit) {
+
+                return unit.name === "cursor";
+
+            });
+
+
+        grandma = productionUnits.find(function(unit) {
+
+                return unit.name === "grandma";
+
+            });
+
+
+        farm = productionUnits.find(function(unit) {
+
+                return unit.name === "farm";
+
+            });
+
+
+        factory = productionUnits.find(function(unit) {
+
+                return unit.name === "factory";
+
+            });
+
+
+        mine = productionUnits.find(function(unit) {
+
+                return unit.name === "mine";
+
+            });
+
+
+        bank = productionUnits.find(function(unit) {
+
+                return unit.name === "bank";
+
+            });
+
+
+        temple = productionUnits.find(function(unit) {
+
+                return unit.name === "temple";
+
+            });
+
+
+        tower = productionUnits.find(function(unit) {
+
+                return unit.name === "tower";
+
+            });
+
+            // Create upgrades after production units are ready
+grandmaDiscount =
+    new DiscountUpgrade(
+        130,
+        "discount-grandma",
+        grandma,
+        0.2
     );
 
 
-const grandma =
-    new ProductionUnit(
-        "Grandma",
-        50,
-        5,
-        "grandma-owned",
-        "buy-grandma",
-        "grandma-price"
-    );
-
-
-const farm =
-    new ProductionUnit(
-        "Farm",
-        100,
-        10,
-        "farm-owned",
-        "buy-farm",
-        "farm-price"
-    );
-
-
-const factory =
-    new ProductionUnit(
-        "Factory",
-        500,
-        50,
-        "factory-owned",
-        "buy-factory",
-        "factory-price"
-    );
-
-
-const mine =
-    new ProductionUnit(
-        "Mine",
-        1000,
-        100,
-        "mine-owned",
-        "buy-mine",
-        "mine-price"
-    );
-
-
-const bank =
-    new ProductionUnit(
-        "Bank",
-        1500,
+grandmaBonus =
+    new GrandmaBonusUpgrade(
         150,
-        "bank-owned",
-        "buy-bank",
-        "bank-price"
+        "grandma-bonus",
+        grandma,
+        farm,
+        1
     );
 
 
-const temple =
-    new ProductionUnit(
-        "Temple",
-        2000,
-        200,
-        "temple-owned",
-        "buy-temple",
-        "temple-price"
+cursorUpgrade =
+    new ProductionUpgrade(
+        30,
+        "upgrade-cursor",
+        cursor,
+        2
     );
 
 
-const tower =
-    new ProductionUnit(
-        "Tower",
-        2500,
-        250,
-        "tower-owned",
-        "buy-tower",
-        "tower-price"
+grandmaUpgrade =
+    new ProductionUpgrade(
+        50,
+        "upgrade-grandma",
+        grandma,
+        2
     );
+
+
+farmUpgrade =
+    new ProductionUpgrade(
+        70,
+        "upgrade-farm",
+        farm,
+        2
+    );
+
+
+factoryUpgrade =
+    new ProductionUpgrade(
+        90,
+        "upgrade-factory",
+        factory,
+        2
+    );
+
+
+mineUpgrade =
+    new ProductionUpgrade(
+        110,
+        "upgrade-mine",
+        mine,
+        2
+    );
+
+
+
+upgrades = [
+    cursorUpgrade,
+    grandmaUpgrade,
+    farmUpgrade,
+    factoryUpgrade,
+    mineUpgrade,
+    grandmaDiscount,
+    grandmaBonus
+];
+
+
+        console.log(productionUnits);
+
+        // Start loading saved game only after JSON is ready
+            loadGame();
+
+    });
+
+
+
 
 
 // ---------------------------------
@@ -466,7 +585,8 @@ class ProductionUpgrade extends Upgrade {
 
         } else if (this.purchased === false) {
 
-            alert("Not enough cookies!");
+            // Show error message
+            messageBox.textContent = "You don't have enough cookies!";
 
         }
 
@@ -520,7 +640,8 @@ class DiscountUpgrade extends Upgrade {
 
         } else if (this.purchased === false) {
 
-            alert("Not enough cookies!");
+            // Show error message
+            messageBox.textContent = "You don't have enough cookies!";
     }
   }
 }
@@ -562,7 +683,8 @@ class GrandmaBonusUpgrade extends Upgrade {
 
       } else if (this.purchased === false) {
 
-        alert("Not enough cookies!");
+        // Show error message
+            messageBox.textContent = "You don't have enough cookies!";
       }
     }
 
@@ -572,73 +694,7 @@ class GrandmaBonusUpgrade extends Upgrade {
 // CREATE Discouts UPGRADES
 // ---------------------------------
 
-const grandmaDiscount =
-    new DiscountUpgrade(
-        400,
-        "discount-grandma",
-        grandma,
-        0.2);
 
-
-// ---------------------------------
-// CREATE GrandmaBonus 
-// ---------------------------------
-
-const grandmaBonus = 
-    new GrandmaBonusUpgrade(
-        500,
-        "grandma-bonus",
-        grandma,
-        farm,
-        1);
-
-// ---------------------------------
-// CREATE UPGRADES
-// ---------------------------------
-
-const cursorUpgrade =
-    new ProductionUpgrade(
-        100,
-        "upgrade-cursor",
-        cursor,
-        2
-    );
-
-
-const grandmaUpgrade =
-    new ProductionUpgrade(
-        150,
-        "upgrade-grandma",
-        grandma,
-        2
-    );
-
-
-const farmUpgrade =
-    new ProductionUpgrade(
-        200,
-        "upgrade-farm",
-        farm,
-        2
-    );
-
-
-const factoryUpgrade =
-    new ProductionUpgrade(
-        250,
-        "upgrade-factory",
-        factory,
-        2
-    );
-
-
-const mineUpgrade =
-    new ProductionUpgrade(
-        300,
-        "upgrade-mine",
-        mine,
-        2
-    );
 
 
 // ---------------------------------
@@ -778,33 +834,6 @@ goldenCookie.addEventListener( "click", function() {
 // ARRAYS
 // ---------------------------------
 
-// All production units
-const productionUnits = [
-
-    cursor,
-    grandma,
-    farm,
-    factory,
-    mine,
-    bank,
-    temple,
-    tower
-
-];
-
-
-// All upgrades
-const upgrades = [
-
-    cursorUpgrade,
-    grandmaUpgrade,
-    farmUpgrade,
-    factoryUpgrade,
-    mineUpgrade,
-    grandmaDiscount,
-    grandmaBonus
-
-];
 
 
 // ---------------------------------
@@ -829,6 +858,11 @@ function saveGame() {
         localStorage.setItem(
             unit.name + "Price",
             unit.price);
+
+        localStorage.setItem(
+        unit.name + "StartPrice",
+        unit.startPrice
+    );
  });
 
     // Save upgrades
@@ -897,6 +931,10 @@ function loadGame() {
         const savedPrice =
             localStorage.getItem(unit.name + "Price");
 
+        const savedStartPrice = localStorage.getItem(
+            unit.name + "StartPrice"
+        );
+
         // Restore amount
         if (savedAmount !== null) {
 
@@ -906,12 +944,16 @@ function loadGame() {
         }
 
         // Restore price
-        if (savedPrice !== null) {
+       if ( savedStartPrice !== null &&
+        Number(savedStartPrice) === unit.startPrice) {
 
-            unit.price = Number(savedPrice);
+        unit.price = Number(savedPrice);
 
-            unit.priceDisplay.textContent = unit.price;
-        }
+    } else { unit.price = unit.startPrice; }
+
+    unit.priceDisplay.textContent =
+        unit.price;
+
     });
 
     // ---------------------------------
@@ -1195,15 +1237,10 @@ prestigeButton.addEventListener("click", function() {
 
     } else {
 
-        alert(
-            "You need 100 cookies to prestige!"
-        );
+        // Show error message
+            messageBox.textContent = "You don't have enough cookies!";
     }
 }); 
 
 
 
-// ---------------------------------
-// START GAME
-// ---------------------------------
-loadGame();

@@ -1,0 +1,66 @@
+[
+    {
+        "name": "cursor",
+        "price": 10,
+        "production": 1,
+        "displayId": "owned",
+        "buttonId": "buy",
+        "priceId": "price"
+    },
+    {
+        "name": "grandma",
+        "price": 20,
+        "production": 5,
+        "displayId": "grandma-owned",
+        "buttonId": "buy-grandma",
+        "priceId": "grandma-price"
+    },
+    {
+        "name": "farm",
+        "price": 40,
+        "production": 10,
+        "displayId": "farm-owned",
+        "buttonId": "buy-farm",
+        "priceId": "farm-price"
+    },
+    {
+        "name": "factory",
+        "price": 60,
+        "production": 50,
+        "displayId": "factory-owned",
+        "buttonId": "buy-factory",
+        "priceId": "factory-price"
+    },
+    {
+        "name": "mine",
+        "price": 80,
+        "production": 100,
+        "displayId": "mine-owned",
+        "buttonId": "buy-mine",
+        "priceId": "mine-price"
+    },
+    {
+        "name": "bank",
+        "price": 100,
+        "production": 150,
+        "displayId": "bank-owned",
+        "buttonId": "buy-bank",
+        "priceId": "bank-price"
+    },
+    {
+        "name": "temple",
+        "price": 120,
+        "production": 200,
+        "displayId": "temple-owned",
+        "buttonId": "buy-temple",
+        "priceId": "temple-price"
+    },
+    {
+        "name": "tower",
+        "price": 150,
+        "production": 250,
+        "displayId": "tower-owned",
+        "buttonId": "buy-tower",
+        "priceId": "tower-price"
+    }
+]
