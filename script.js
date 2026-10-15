@@ -377,8 +377,12 @@ grandmaDiscount =
     new DiscountUpgrade(
         130,
         "discount-grandma",
-        grandma,
-        0.2
+        function() {
+            grandma.price = math.ceil(grandma.price * 0.8);
+
+            grandma.priceDisplay.textContent = grandma.price;
+        },
+        
     );
 
 
@@ -386,54 +390,67 @@ grandmaBonus =
     new GrandmaBonusUpgrade(
         150,
         "grandma-bonus",
-        grandma,
-        farm,
-        1
+        function() {
+
+            updateCPS() ;
+        }
     );
+    grandmaBonus.bonus = 1;
 
 
-cursorUpgrade =
-    new ProductionUpgrade(
+cursorUpgrade = new Upgrade(
         30,
         "upgrade-cursor",
-        cursor,
-        2
+        
+       function() {
+            cursor.multiplier = cursor.multiplier * 2;
+            updateCPS();
+        },
+
     );
 
 
-grandmaUpgrade =
-    new ProductionUpgrade(
+grandmaUpgrade = new Upgrade(
         50,
         "upgrade-grandma",
-        grandma,
-        2
+
+         function() {
+            grandma.multiplier = grandma.multiplier * 2;
+            updateCPS();
+        },
     );
 
 
-farmUpgrade =
-    new ProductionUpgrade(
+farmUpgrade = new Upgrade(
         70,
         "upgrade-farm",
-        farm,
-        2
+
+         function() {
+            farm.multiplier = farm.multiplier * 2;
+            updateCPS();
+        },
     );
 
 
-factoryUpgrade =
-    new ProductionUpgrade(
+factoryUpgrade = new Upgrade(
         90,
         "upgrade-factory",
-        factory,
-        2
+
+          function() {
+            factory.multiplier = factory.multiplier * 2;
+            updateCPS();
+        },
     );
 
 
-mineUpgrade =
-    new ProductionUpgrade(
+mineUpgrade = new Upgrade(
         110,
         "upgrade-mine",
-        mine,
-        2
+
+         function() {
+        mine.multiplier = mine.multiplier * 2;
+            updateCPS();
+        },
     );
 
 
@@ -456,10 +473,6 @@ upgrades = [
 
     });
 
-
-
-
-
 // ---------------------------------
 // BASE UPGRADE CLASS
 // ---------------------------------
@@ -468,7 +481,8 @@ class Upgrade {
 
     constructor(
         price,
-        buttonId
+        buttonId,
+        effect
     ) {
 
         this.price = price;
@@ -476,6 +490,7 @@ class Upgrade {
         // Upgrade is not purchased yet
         this.purchased = false;
 
+        this.effect = effect;
 
         // Upgrade button
         this.button =
@@ -491,7 +506,6 @@ class Upgrade {
 
     }
 
-
     // ---------------------------------
     // GENERAL BUY METHOD
     // ---------------------------------
@@ -504,20 +518,21 @@ class Upgrade {
             // Pay cookies
             cookies = cookies - this.price;
 
-
             // Mark as purchased
             this.purchased = true;
 
-
             // Update cookie counter
             cookieDisplay.textContent = cookies;
-
 
             // Disable button
             this.button.disabled = true;
 
             // Show that the upgrade was purchased
             this.button.textContent = "Purchased";
+
+            if (this.effect){
+                this.effect();
+            }
 
             // Purchase successful    
             return true;
@@ -530,172 +545,6 @@ class Upgrade {
     }
 
 }
-
-
-// ---------------------------------
-// PRODUCTION UPGRADE CLASS
-// ---------------------------------
-
-class ProductionUpgrade extends Upgrade {
-
-    constructor(
-        price,
-        buttonId,
-        productionUnit,
-        multiplier
-    ) {
-
-        // Use constructor from Upgrade
-        super (price,buttonId);
-
-
-        // Unit affected by upgrade
-        this.productionUnit = productionUnit;
-
-
-        // Example: 2 = x2
-        this.multiplier = multiplier;
-
-    }
-
-
-    // ---------------------------------
-    // BUY PRODUCTION UPGRADE
-    // ---------------------------------
-
-    buy() {
-
-        // Use buy method from Upgrade
-        const success = super.buy();
-
-        if (success) {
-
-            // Multiply production
-            this.productionUnit.multiplier =
-                this.productionUnit.multiplier
-                * this.multiplier;
-
-
-            // Update CPS immediately
-            updateCPS();
-
-
-            // Save after buying upgrade
-            saveGame();
-
-        } else if (this.purchased === false) {
-
-            // Show error message
-            messageBox.textContent = "You don't have enough cookies!";
-
-        }
-
-    }
-
-}
-
-// ---------------------------------
-// DiscountUpgrade
-// ---------------------------------
-
-class DiscountUpgrade extends Upgrade {
-
-    constructor(
-        price,
-        buttonId,
-        productionUnit,
-        discount
-    ) {
-
-        // Use constructor from Upgrade
-        super (price, buttonId);
-
-        // Unit affected by upgrade
-        this.productionUnit = productionUnit;
-
-        // Example: 0.2 = 20% discount
-        this.discount = discount;
-
-    }
-
-    buy() {
-
-        const success = super.buy();
-
-        if (success) {
-
-            // Apply discount
-            this.productionUnit.price = Math.ceil(
-                this.productionUnit.price
-                * (1 - this.discount) 
-            );
-
-           // Update the price on the screen
-           this.productionUnit.priceDisplay.textContent =
-              this.productionUnit.price;
-
-
-            // Save after buying upgrade
-            saveGame();
-
-        } else if (this.purchased === false) {
-
-            // Show error message
-            messageBox.textContent = "You don't have enough cookies!";
-    }
-  }
-}
-
-// ---------------------------------
-// GrandmaBonusUpgrade
-// ---------------------------------
-
-class GrandmaBonusUpgrade extends Upgrade {
-
-    constructor(
-        price,
-        buttonId,
-        grandmaUnit,
-        farmUnit,
-        bonus
-    ) {
-
-        super (price, buttonId);
-
-        this.grandmaUnit = grandmaUnit;
-
-
-        this.farmUnit = farmUnit;
-
-
-        this.bonus = bonus;
-    }
-
-    buy() {
-
-        const success = super.buy();
-
-      if (success) {
-
-        updateCPS();
-
-        saveGame();
-
-      } else if (this.purchased === false) {
-
-        // Show error message
-            messageBox.textContent = "You don't have enough cookies!";
-      }
-    }
-
-}
-
-// ---------------------------------
-// CREATE Discouts UPGRADES
-// ---------------------------------
-
-
-
 
 // ---------------------------------
 // CPS CALCULATOR
@@ -945,11 +794,18 @@ function loadGame() {
 
         // Restore price
        if ( savedStartPrice !== null &&
-        Number(savedStartPrice) === unit.startPrice) {
+        Number(savedStartPrice) === unit.startPrice
+    ) {
 
-        unit.price = Number(savedPrice);
+        unit.price =
+            Number(savedPrice);
 
-    } else { unit.price = unit.startPrice; }
+    } else {
+
+        unit.price =
+            unit.startPrice;
+    }
+
 
     unit.priceDisplay.textContent =
         unit.price;
