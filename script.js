@@ -374,11 +374,11 @@ fetch("productionUnits.json").then(function(response){
 
             // Create upgrades after production units are ready
 grandmaDiscount =
-    new DiscountUpgrade(
+    new Upgrade(
         130,
         "discount-grandma",
         function() {
-            grandma.price = math.ceil(grandma.price * 0.8);
+            grandma.price = Math.ceil(grandma.price * 0.8);
 
             grandma.priceDisplay.textContent = grandma.price;
         },
@@ -387,7 +387,7 @@ grandmaDiscount =
 
 
 grandmaBonus =
-    new GrandmaBonusUpgrade(
+    new Upgrade(
         150,
         "grandma-bonus",
         function() {
@@ -678,13 +678,6 @@ goldenCookie.addEventListener( "click", function() {
     }
 );
 
-
-// ---------------------------------
-// ARRAYS
-// ---------------------------------
-
-
-
 // ---------------------------------
 // SAVE GAME
 // ---------------------------------
@@ -710,8 +703,13 @@ function saveGame() {
 
         localStorage.setItem(
         unit.name + "StartPrice",
-        unit.startPrice
-    );
+        unit.startPrice);
+
+        localStorage.setItem(
+        unit.name + "Multiplier",
+        unit.multiplier);
+
+
  });
 
     // Save upgrades
@@ -781,8 +779,10 @@ function loadGame() {
             localStorage.getItem(unit.name + "Price");
 
         const savedStartPrice = localStorage.getItem(
-            unit.name + "StartPrice"
-        );
+            unit.name + "StartPrice");
+
+        const savedMultiplier = localStorage.getItem(
+            unit.name + "Multiplier");
 
         // Restore amount
         if (savedAmount !== null) {
@@ -796,29 +796,20 @@ function loadGame() {
        if ( savedStartPrice !== null &&
         Number(savedStartPrice) === unit.startPrice
     ) {
-
-        unit.price =
-            Number(savedPrice);
+        unit.price = Number(savedPrice);
 
     } else {
-
-        unit.price =
-            unit.startPrice;
+        unit.price = unit.startPrice;
     }
+
+    if (savedMultiplier !== null) {
+           unit.multiplier = Number(savedMultiplier);
+}
 
 
     unit.priceDisplay.textContent =
         unit.price;
 
-    });
-
-    // ---------------------------------
-    // RESET MULTIPLIERS
-    // ---------------------------------
-
-    productionUnits.forEach(function(unit) {
-
-        unit.multiplier = 1;
     });
 
     // ---------------------------------
@@ -844,14 +835,6 @@ function loadGame() {
             // Change button text
             upgrade.button.textContent ="Purchased";
 
-            // Restore ProductionUpgrade effect
-            if (
-                upgrade instanceof ProductionUpgrade
-            ) {
-                upgrade.productionUnit.multiplier =
-                    upgrade.productionUnit.multiplier
-                    * upgrade.multiplier;
-            }
         }
     });
 
@@ -862,7 +845,6 @@ function loadGame() {
 
     const savedDarkMode =
         localStorage.getItem("darkMode");
-
 
     if (savedDarkMode === "true") {
 
