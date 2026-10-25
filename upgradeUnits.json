@@ -1,0 +1,58 @@
+[
+    {
+        "name": "cursorUpgrade",
+        "price": 30,
+        "buttonId": "upgrade-cursor",
+        "type": "multiplier",
+        "productionUnit": "cursor",
+        "value": 2
+    },
+    {
+        "name": "grandmaUpgrade",
+        "price": 50,
+        "buttonId": "upgrade-grandma",
+        "type": "multiplier",
+        "productionUnit": "grandma",
+        "value": 2
+    },
+    {
+    "name": "farmUpgrade",
+    "price": 70,
+    "buttonId": "upgrade-farm",
+    "type": "multiplier",
+    "productionUnit": "farm",
+    "value": 2
+},
+{
+    "name": "factoryUpgrade",
+    "price": 90,
+    "buttonId": "upgrade-factory",
+    "type": "multiplier",
+    "productionUnit": "factory",
+    "value": 2
+},
+{
+    "name": "mineUpgrade",
+    "price": 110,
+    "buttonId": "upgrade-mine",
+    "type": "multiplier",
+    "productionUnit": "mine",
+    "value": 2
+},
+{
+    "name": "grandmaDiscount",
+    "price": 130,
+    "buttonId": "discount-grandma",
+    "type": "discount",
+    "productionUnit": "grandma",
+    "value": 0.2
+},
+{
+    "name": "grandmaBonus",
+    "price": 150,
+    "buttonId": "grandma-bonus",
+    "type": "bonus",
+    "value": 1
+}
+
+]

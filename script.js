@@ -279,13 +279,6 @@ let bank;
 let temple;
 let tower;
 
-let cursorUpgrade;
-let grandmaUpgrade;
-let farmUpgrade;
-let factoryUpgrade;
-let mineUpgrade;
-
-let grandmaDiscount;
 let grandmaBonus;
 
 let upgrades = [];
@@ -372,106 +365,91 @@ fetch("productionUnits.json").then(function(response){
 
             });
 
-            // Create upgrades after production units are ready
-grandmaDiscount =
-    new Upgrade(
-        130,
-        "discount-grandma",
-        function() {
-            grandma.price = Math.ceil(grandma.price * 0.8);
+fetch("upgradeUnits.json").then(function(response) {
 
-            grandma.priceDisplay.textContent = grandma.price;
-        },
-        
-    );
+        return response.json();
 
+    }).then(function(upgradeData) {
 
-grandmaBonus =
-    new Upgrade(
-        150,
-        "grandma-bonus",
-        function() {
+        upgradeData.forEach(function(data) {
 
-            updateCPS() ;
-        }
-    );
-    grandmaBonus.bonus = 1;
+            // MULTIPLIER UPGRADE
 
+            if (data.type === "multiplier") {
 
-cursorUpgrade = new Upgrade(
-        30,
-        "upgrade-cursor",
-        
-       function() {
-            cursor.multiplier = cursor.multiplier * 2;
-            updateCPS();
-        },
+                const unit = productionUnits.find(function(productionUnit) {
 
-    );
+                        return productionUnit.name === data.productionUnit;
 
+                    });
 
-grandmaUpgrade = new Upgrade(
-        50,
-        "upgrade-grandma",
+                const upgrade = new Upgrade(
+                        data.price, data.buttonId,
+                        function() {
+                            unit.multiplier =  unit.multiplier * data.value;
+                            updateCPS();
+                        }
+                    );
 
-         function() {
-            grandma.multiplier = grandma.multiplier * 2;
-            updateCPS();
-        },
-    );
+                upgrades.push(upgrade);
+            }
 
+            // DISCOUNT UPGRADE
 
-farmUpgrade = new Upgrade(
-        70,
-        "upgrade-farm",
+            if (data.type === "discount") {
 
-         function() {
-            farm.multiplier = farm.multiplier * 2;
-            updateCPS();
-        },
-    );
+                const unit = productionUnits.find(function(productionUnit) {
 
+                        return productionUnit.name === data.productionUnit;
 
-factoryUpgrade = new Upgrade(
-        90,
-        "upgrade-factory",
+                    });
 
-          function() {
-            factory.multiplier = factory.multiplier * 2;
-            updateCPS();
-        },
-    );
+                const upgrade = new Upgrade(
+                        data.price, data.buttonId,
+                        function() {
 
+                            unit.price = Math.ceil(unit.price * (1 - data.value) );
 
-mineUpgrade = new Upgrade(
-        110,
-        "upgrade-mine",
+                            unit.priceDisplay.textContent = unit.price;
+                        }
+                    );
+                upgrades.push(upgrade);
+            }
 
-         function() {
-        mine.multiplier = mine.multiplier * 2;
-            updateCPS();
-        },
-    );
+            // BONUS UPGRADE
 
+            if (data.type === "bonus") {
 
+                const upgrade = new Upgrade(
+                        data.price, data.buttonId,
+                        function() {
+                            updateCPS();
+                        }
+                    );
 
-upgrades = [
-    cursorUpgrade,
-    grandmaUpgrade,
-    farmUpgrade,
-    factoryUpgrade,
-    mineUpgrade,
-    grandmaDiscount,
-    grandmaBonus
-];
+                upgrade.bonus = data.value;
+
+                grandmaBonus = upgrade;
+
+                upgrades.push(upgrade);
+            }
+
+        });
+
+        // Load saved game only after
+        // all upgrades are created
+        loadGame();
+
+    });
+
+    });
 
 
         console.log(productionUnits);
 
-        // Start loading saved game only after JSON is ready
-            loadGame();
+      
 
-    });
+
 
 // ---------------------------------
 // BASE UPGRADE CLASS
@@ -533,6 +511,7 @@ class Upgrade {
             if (this.effect){
                 this.effect();
             }
+            saveGame();
 
             // Purchase successful    
             return true;
