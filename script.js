@@ -4,13 +4,13 @@
 
 let cookies = 0;
 
-let cookieBeginnerUnlocked = false; 
+let cookieBeginnerUnlocked = false;
 
 let totalCookiesEarned = 0; // total cookies earned, including cookies lost when resetting
 
 let totalPlaytime = 0; // total time spent playing, in seconds
 
-let prestigeLevel = 0; 
+let prestigeLevel = 0;
 
 let prestigeBonus = 0; // bonus to cookies earned from prestige
 
@@ -59,17 +59,17 @@ const messageBox = document.getElementById("message");
 // CLICK ON COOKIE
 // ---------------------------------
 
-cookieButton.addEventListener("click", function() {
+cookieButton.addEventListener("click", function () {
 
     // Add one cookie
     cookies = cookies + 1;
-    
-    totalCookiesEarned = totalCookiesEarned + 1; 
+
+    totalCookiesEarned = totalCookiesEarned + 1;
 
     // Update cookie counter
     cookieDisplay.textContent = cookies;
 
-     // Call function to check achievements
+    // Call function to check achievements
     checkAchievements();
 
     // Update statistics
@@ -77,27 +77,22 @@ cookieButton.addEventListener("click", function() {
 
 });
 
-// ---------------------------------
 // show message 
-// ---------------------------------
 
 function clearMessage() {
-    
-document.getElementById("message").textContent = "";
+
+    document.getElementById("message").textContent = "";
 
 }
 
-setInterval (clearMessage, 5000);
+setInterval(clearMessage, 5000);
 
 
-
-// ---------------------------------
 // Achievements
-// ---------------------------------
 
 function checkAchievements() {
 
-    if (cookies >= 100 && cookieBeginnerUnlocked == false){
+    if (cookies >= 100 && cookieBeginnerUnlocked == false) {
 
         cookieBeginnerUnlocked = true;
 
@@ -112,7 +107,7 @@ function checkAchievements() {
         // Show achievement
         cookieBeginnerDisplay.textContent = "Cookie Beginner Unlocked (+50 Cookies)";
 
-         // Update statistics
+        // Update statistics
         updateStatistics();
 
         // Save achievement
@@ -120,31 +115,27 @@ function checkAchievements() {
     }
 }
 
-// ---------------------------------
 // Update Total Cookies Earned
-// ---------------------------------
+
 function updateStatistics() {
 
     totalCookiesDisplay.textContent = totalCookiesEarned;
-    
+
     totalPlaytimeDisplay.textContent = totalPlaytime;
 }
 
-// ---------------------------------
+
 // Increase Playtime
-// ---------------------------------
-setInterval(function() {
+
+setInterval(function () {
 
     totalPlaytime = totalPlaytime + 1;
 
     updateStatistics();
 
-},1000);
+}, 1000);
 
-
-// ---------------------------------
 // PRODUCTION UNIT CLASS
-// ---------------------------------
 
 class ProductionUnit {
 
@@ -197,10 +188,7 @@ class ProductionUnit {
 
     }
 
-
-    // ---------------------------------
     // BUY PRODUCTION UNIT
-    // ---------------------------------
 
     buy() {
 
@@ -247,26 +235,19 @@ class ProductionUnit {
 
     }
 
-
-    // ---------------------------------
     // PRODUCTION PER SECOND
-    // ---------------------------------
 
     getProductionPerSecond() {
 
         return (
-            this.amount
-            * this.production
-            * this.multiplier
+            this.amount * this.production * this.multiplier
         );
 
     }
 
 }
 
-// ---------------------------------
 // LOAD PRODUCTION UNITS FROM JSON
-// ---------------------------------
 
 const productionUnits = [];
 
@@ -284,135 +265,119 @@ let grandmaBonus;
 let upgrades = [];
 
 
-fetch("productionUnits.json").then(function(response){
+fetch("productionUnits.json").then(function (response) {
+
+    return response.json();
+
+}).then(function (data) {
+
+    // Create all production units
+    data.forEach(function (unitData) {
+
+        const unit = new ProductionUnit(
+            unitData.name,
+            unitData.price,
+            unitData.production,
+            unitData.displayId,
+            unitData.buttonId,
+            unitData.priceId
+        );
+
+        productionUnits.push(unit);
+
+    });
+
+    // Find each production unit by name
+
+    cursor = productionUnits.find(function (unit) {
+        return unit.name === "cursor";
+    });
+
+    grandma = productionUnits.find(function (unit) {
+        return unit.name === "grandma";
+    });
+
+    farm = productionUnits.find(function (unit) {
+        return unit.name === "farm";
+    });
+
+    factory = productionUnits.find(function (unit) {
+        return unit.name === "factory";
+    });
+
+    mine = productionUnits.find(function (unit) {
+        return unit.name === "mine";
+    });
+
+    bank = productionUnits.find(function (unit) {
+        return unit.name === "bank";
+    });
+
+    temple = productionUnits.find(function (unit) {
+        return unit.name === "temple";
+    });
+
+    tower = productionUnits.find(function (unit) {
+        return unit.name === "tower";
+    });
+
+    // Load normal upgrades
+
+    fetch("upgradeUnits.json").then(function (response) {
 
         return response.json();
 
-    }).then(function(data) {
+    }).then(function (upgradeData) {
 
-        // Create all production units
-        data.forEach(function(unitData) {
-
-            const unit = new ProductionUnit(
-                    unitData.name,
-                    unitData.price,
-                    unitData.production,
-                    unitData.displayId,
-                    unitData.buttonId,
-                    unitData.priceId
-                );
-
-            productionUnits.push(unit);
-
-            
-
-        });
-
-        // Find each production unit by name
-
-        cursor = productionUnits.find(function(unit) {
-
-                return unit.name === "cursor";
-
-            });
-
-
-        grandma = productionUnits.find(function(unit) {
-
-                return unit.name === "grandma";
-
-            });
-
-
-        farm = productionUnits.find(function(unit) {
-
-                return unit.name === "farm";
-
-            });
-
-
-        factory = productionUnits.find(function(unit) {
-
-                return unit.name === "factory";
-
-            });
-
-
-        mine = productionUnits.find(function(unit) {
-
-                return unit.name === "mine";
-
-            });
-
-
-        bank = productionUnits.find(function(unit) {
-
-                return unit.name === "bank";
-
-            });
-
-
-        temple = productionUnits.find(function(unit) {
-
-                return unit.name === "temple";
-
-            });
-
-
-        tower = productionUnits.find(function(unit) {
-
-                return unit.name === "tower";
-
-            });
-
-fetch("upgradeUnits.json").then(function(response) {
-
-        return response.json();
-
-    }).then(function(upgradeData) {
-
-        upgradeData.forEach(function(data) {
+        upgradeData.forEach(function (data) {
 
             // MULTIPLIER UPGRADE
 
             if (data.type === "multiplier") {
 
-                const unit = productionUnits.find(function(productionUnit) {
+                const unit = productionUnits.find(function (productionUnit) {
 
-                        return productionUnit.name === data.productionUnit;
-
-                    });
+                    return productionUnit.name === data.productionUnit;
+                }
+                );
 
                 const upgrade = new Upgrade(
-                        data.price, data.buttonId,
-                        function() {
-                            unit.multiplier =  unit.multiplier * data.value;
-                            updateCPS();
-                        }
-                    );
+                    data.price,
+                    data.buttonId,
+                    function () {
+
+                        unit.multiplier = unit.multiplier * data.value;
+
+                        updateCPS();
+
+                    }
+                );
 
                 upgrades.push(upgrade);
             }
-
             // DISCOUNT UPGRADE
 
             if (data.type === "discount") {
 
-                const unit = productionUnits.find(function(productionUnit) {
+                const unit = productionUnits.find(function (productionUnit) {
 
-                        return productionUnit.name === data.productionUnit;
+                    return productionUnit.name === data.productionUnit;
 
-                    });
+                }
+                );
 
                 const upgrade = new Upgrade(
-                        data.price, data.buttonId,
-                        function() {
+                    data.price,
+                    data.buttonId,
+                    function () {
 
-                            unit.price = Math.ceil(unit.price * (1 - data.value) );
+                        unit.price = Math.ceil(unit.price * (1 - data.value));
 
-                            unit.priceDisplay.textContent = unit.price;
-                        }
-                    );
+                        unit.priceDisplay.textContent = unit.price;
+
+                    }
+                );
+
                 upgrades.push(upgrade);
             }
 
@@ -421,11 +386,14 @@ fetch("upgradeUnits.json").then(function(response) {
             if (data.type === "bonus") {
 
                 const upgrade = new Upgrade(
-                        data.price, data.buttonId,
-                        function() {
-                            updateCPS();
-                        }
-                    );
+                    data.price,
+                    data.buttonId,
+                    function () {
+
+                        updateCPS();
+
+                    }
+                );
 
                 upgrade.bonus = data.value;
 
@@ -436,24 +404,142 @@ fetch("upgradeUnits.json").then(function(response) {
 
         });
 
-        // Load saved game only after
-        // all upgrades are created
-        loadGame();
+
+        // Load first mod file
+
+        fetch("mod.json").then(function (response) {
+
+            return response.json();
+
+        }).then(function (modData) {
+
+            modData.upgrades.forEach(function (data) {
+
+                const upgradeContainer =
+                    document.querySelector(".upgrade-container");
+
+                const item = document.createElement("div");
+
+                item.className = "upgrade-item";
+
+                item.innerHTML = `
+                                <h3>${data.name}</h3>
+
+                                <p>Mod Upgrade</p>
+
+                                <p>
+                                    Price: ${data.price} Cookies
+                                </p>
+
+                                <button id="${data.buttonId}">
+                                    Buy ${data.name}
+                                </button>
+                            `;
+
+                upgradeContainer.appendChild(item);
+
+                const unit = productionUnits.find(function (productionUnit) {
+
+                    return productionUnit.name === data.productionUnit;
+
+                }
+                );
+
+
+                const upgrade = new Upgrade(
+                    data.price,
+                    data.buttonId,
+                    function () {
+
+                        unit.multiplier = unit.multiplier * data.value;
+
+                        updateCPS();
+
+                    }
+                );
+
+                upgrades.push(upgrade);
+
+            });
+
+
+            // Load second mod file
+
+            fetch("mods.json").then(function (response) {
+
+                return response.json();
+
+            }).then(function (modData) {
+
+                modData.productionUnits.forEach(function (data) {
+
+                    const shopContainer =
+                        document.querySelector(".shop-grid");
+
+
+                    const item =
+                        document.createElement("div");
+
+                    item.className = "shop-item";
+
+
+                    item.innerHTML = `
+                                     <h3>${data.name}</h3>
+
+                                     <p>
+                                      Owned:
+                                      <span id="${data.displayId}">0</span>
+                                    </p>
+
+                                     <p>
+                                       Price:
+                                       <span id="${data.priceId}">${data.price}</span>
+                                       Cookies
+                                     </p>
+
+                                    <p>
+                                      Production:${data.production} / second
+                                    </p>
+
+                                    <button id="${data.buttonId}"> Buy ${data.name}
+                                    </button>
+                                   `;
+
+
+                    shopContainer.appendChild(item);
+
+
+                    const unit = new ProductionUnit(
+                        data.name,
+                        data.price,
+                        data.production,
+                        data.displayId,
+                        data.buttonId,
+                        data.priceId
+                    );
+
+
+                    productionUnits.push(unit);
+
+                });
+
+
+
+                loadGame();
+
+            });
+
+        });
 
     });
 
-    });
+});
+
+console.log(productionUnits);
+console.log(upgrades);
 
 
-        console.log(productionUnits);
-
-      
-
-
-
-// ---------------------------------
 // BASE UPGRADE CLASS
-// ---------------------------------
 
 class Upgrade {
 
@@ -471,9 +557,9 @@ class Upgrade {
         this.effect = effect;
 
         // Upgrade button
-        this.button =
-            document.getElementById(buttonId);
+        this.button = document.getElementById(buttonId);
 
+        this.originalText = this.button.textContent;
 
         // Buy upgrade when clicked
         this.button.addEventListener("click", () => {
@@ -484,14 +570,12 @@ class Upgrade {
 
     }
 
-    // ---------------------------------
     // GENERAL BUY METHOD
-    // ---------------------------------
 
     buy() {
 
         if (cookies >= this.price &&
-            this.purchased === false ) {
+            this.purchased === false) {
 
             // Pay cookies
             cookies = cookies - this.price;
@@ -508,7 +592,7 @@ class Upgrade {
             // Show that the upgrade was purchased
             this.button.textContent = "Purchased";
 
-            if (this.effect){
+            if (this.effect) {
                 this.effect();
             }
             saveGame();
@@ -525,9 +609,7 @@ class Upgrade {
 
 }
 
-// ---------------------------------
 // CPS CALCULATOR
-// ---------------------------------
 
 function calculateCPS() {
 
@@ -535,32 +617,35 @@ function calculateCPS() {
 
     if (grandmaBonus.purchased) {
         grandmaProduction = grandma.amount *
-          (grandma.production + farm.amount * grandmaBonus.bonus)
+            (grandma.production + farm.amount * grandmaBonus.bonus)
             * grandma.multiplier;
+    }
+
+    let normalCPS = 0;
+
+    productionUnits.forEach(function (unit) {
+
+        if (unit.name === "grandma") {
+
+            normalCPS = normalCPS + grandmaProduction;
+
+        } else {
+
+            normalCPS = normalCPS + unit.getProductionPerSecond();
+
         }
 
-    const normalCPS =
-        cursor.getProductionPerSecond()
-        + grandmaProduction
-        + farm.getProductionPerSecond()
-        + factory.getProductionPerSecond()
-        + mine.getProductionPerSecond()
-        + bank.getProductionPerSecond()
-        + temple.getProductionPerSecond()
-        + tower.getProductionPerSecond();
+    });
 
     // Add Prestige bonus
-    const finalCPS = normalCPS
-        * (1 + prestigeBonus);
+    const finalCPS = normalCPS * (1 + prestigeBonus);
 
-     // No decimal numbers
+    // No decimal numbers
     return Math.round(finalCPS);
 
 }
 
-// ---------------------------------
 // UPDATE CPS
-// ---------------------------------
 
 function updateCPS() {
 
@@ -569,11 +654,9 @@ function updateCPS() {
 }
 
 
-// ---------------------------------
 // AUTOMATIC PRODUCTION
-// ---------------------------------
 
-setInterval(function() {
+setInterval(function () {
 
     const earnedCookies = calculateCPS();
 
@@ -581,9 +664,7 @@ setInterval(function() {
     cookies = cookies + earnedCookies;
 
     // Add only earned cookies to statistics
-    totalCookiesEarned =
-        totalCookiesEarned + earnedCookies;
-
+    totalCookiesEarned = totalCookiesEarned + earnedCookies;
 
     // Update cookie counter
     cookieDisplay.textContent = cookies;
@@ -600,9 +681,7 @@ setInterval(function() {
 }, 1000);
 
 
-// ---------------------------------
 // GOLDEN COOKIE
-// ---------------------------------
 
 function showGoldenCookie() {
 
@@ -619,12 +698,12 @@ function hideGoldenCookie() {
 
 
 // Show Golden Cookie every 15 seconds
-setInterval(function() {
+setInterval(function () {
 
     showGoldenCookie();
 
     // Hide after 5 seconds
-    setTimeout(function() {
+    setTimeout(function () {
 
         hideGoldenCookie();
 
@@ -634,32 +713,29 @@ setInterval(function() {
 
 
 // Golden Cookie gives 100 cookies
-goldenCookie.addEventListener( "click", function() {
+goldenCookie.addEventListener("click", function () {
 
-        cookies =  cookies + 100;
+    cookies = cookies + 100;
 
-        totalCookiesEarned = totalCookiesEarned + 100;
+    totalCookiesEarned = totalCookiesEarned + 100;
 
-        // Update counter
-        cookieDisplay.textContent = cookies;
+    // Update counter
+    cookieDisplay.textContent = cookies;
 
-        updateStatistics();
+    updateStatistics();
 
-        checkAchievements();
+    checkAchievements();
 
-        // Hide Golden Cookie
-        hideGoldenCookie();
+    // Hide Golden Cookie
+    hideGoldenCookie();
 
+    // Save bonus
+    saveGame();
 
-        // Save bonus
-        saveGame();
-
-    }
+}
 );
 
-// ---------------------------------
 // SAVE GAME
-// ---------------------------------
 
 function saveGame() {
 
@@ -667,7 +743,7 @@ function saveGame() {
     localStorage.setItem("cookies", cookies);
 
     // Save all production units
-    productionUnits.forEach(function(unit) {
+    productionUnits.forEach(function (unit) {
 
         // Save amount
         localStorage.setItem(
@@ -681,18 +757,18 @@ function saveGame() {
             unit.price);
 
         localStorage.setItem(
-        unit.name + "StartPrice",
-        unit.startPrice);
+            unit.name + "StartPrice",
+            unit.startPrice);
 
         localStorage.setItem(
-        unit.name + "Multiplier",
-        unit.multiplier);
+            unit.name + "Multiplier",
+            unit.multiplier);
 
 
- });
+    });
 
     // Save upgrades
-    upgrades.forEach(function(upgrade) {
+    upgrades.forEach(function (upgrade) {
 
         localStorage.setItem(
             upgrade.button.id + "Purchased",
@@ -706,50 +782,44 @@ function saveGame() {
 
 
     // Save achievement
-    localStorage.setItem("cookieBeginnerUnlocked", 
+    localStorage.setItem("cookieBeginnerUnlocked",
         cookieBeginnerUnlocked);
 
     // Save total cookies earned
     localStorage.setItem("totalCookiesEarned",
-         totalCookiesEarned); 
+        totalCookiesEarned);
 
     //save total playtime
     localStorage.setItem("totalPlaytime",
-         totalPlaytime);
+        totalPlaytime);
 
     // Save Prestige Level
-    localStorage.setItem("prestigeLevel", 
+    localStorage.setItem("prestigeLevel",
         prestigeLevel);
 
     // Save Prestige Bonus
-    localStorage.setItem("prestigeBonus", 
+    localStorage.setItem("prestigeBonus",
         prestigeBonus);
 }
 
-// ---------------------------------
 // LOAD GAME
-// ---------------------------------
 
 function loadGame() {
-    // ---------------------------------
-    // LOAD COOKIES
-    // ---------------------------------
 
-    const savedCookies =
-        localStorage.getItem("cookies");
+    // LOAD COOKIES
+
+    const savedCookies = localStorage.getItem("cookies");
 
     if (savedCookies !== null) {
 
-        cookies =Number(savedCookies);
+        cookies = Number(savedCookies);
 
         cookieDisplay.textContent = cookies;
     }
 
-    // ---------------------------------
     // LOAD PRODUCTION UNITS
-    // ---------------------------------
 
-    productionUnits.forEach(function(unit) {
+    productionUnits.forEach(function (unit) {
 
         const savedAmount =
             localStorage.getItem(unit.name + "Amount");
@@ -766,41 +836,37 @@ function loadGame() {
         // Restore amount
         if (savedAmount !== null) {
 
-            unit.amount =Number(savedAmount);
+            unit.amount = Number(savedAmount);
 
             unit.display.textContent = unit.amount;
         }
 
         // Restore price
-       if ( savedStartPrice !== null &&
-        Number(savedStartPrice) === unit.startPrice
-    ) {
-        unit.price = Number(savedPrice);
+        if (savedStartPrice !== null &&
+            Number(savedStartPrice) === unit.startPrice
+        ) {
+            unit.price = Number(savedPrice);
 
-    } else {
-        unit.price = unit.startPrice;
-    }
+        } else {
+            unit.price = unit.startPrice;
+        }
 
-    if (savedMultiplier !== null) {
-           unit.multiplier = Number(savedMultiplier);
-}
+        if (savedMultiplier !== null) {
+            unit.multiplier = Number(savedMultiplier);
+        }
 
-
-    unit.priceDisplay.textContent =
-        unit.price;
+        unit.priceDisplay.textContent =
+            unit.price;
 
     });
 
-    // ---------------------------------
     // LOAD UPGRADES
-    // ---------------------------------
 
-    upgrades.forEach(function(upgrade) {
+    upgrades.forEach(function (upgrade) {
 
-        const savedPurchased =
-            localStorage.getItem(
-                upgrade.button.id + "Purchased"
-            );
+        const savedPurchased = localStorage.getItem(
+            upgrade.button.id + "Purchased"
+        );
 
 
         if (savedPurchased === "true") {
@@ -812,15 +878,12 @@ function loadGame() {
             upgrade.button.disabled = true;
 
             // Change button text
-            upgrade.button.textContent ="Purchased";
+            upgrade.button.textContent = "Purchased";
 
         }
     });
 
-
-    // ---------------------------------
     // LOAD DARK MODE
-    // ---------------------------------
 
     const savedDarkMode =
         localStorage.getItem("darkMode");
@@ -837,9 +900,8 @@ function loadGame() {
 
         darkModeButton.textContent = "Dark Mode";
     }
-    // ---------------------------------
+
     // LOAD ACHIEVEMENT
-    // ---------------------------------
 
     const savedAchievement =
         localStorage.getItem("cookieBeginnerUnlocked");
@@ -853,9 +915,7 @@ function loadGame() {
             "Cookie Beginner: Unlocked (+50 Cookies)";
     }
 
-    // ---------------------------------
     // LOAD TOTAL COOKIES EARNED
-    // ---------------------------------
 
     const savedTotalCookies =
         localStorage.getItem("totalCookiesEarned");
@@ -865,9 +925,8 @@ function loadGame() {
 
         totalCookiesEarned = Number(savedTotalCookies);
     }
-    // ---------------------------------
+
     // LOAD TOTAL PLAYTIME
-    // ---------------------------------
 
     const savedPlaytime =
         localStorage.getItem("totalPlaytime");
@@ -878,9 +937,7 @@ function loadGame() {
         totalPlaytime = Number(savedPlaytime);
     }
 
-    // ---------------------------------
     // LOAD PRESTIGE LEVEL
-    // ---------------------------------
 
     const savedPrestigeLevel =
         localStorage.getItem("prestigeLevel");
@@ -893,9 +950,7 @@ function loadGame() {
         prestigeLevelDisplay.textContent = prestigeLevel;
     }
 
-    // ---------------------------------
     // LOAD PRESTIGE BONUS
-    // ---------------------------------
 
     const savedPrestigeBonus =
         localStorage.getItem("prestigeBonus");
@@ -906,9 +961,7 @@ function loadGame() {
         prestigeBonus = Number(savedPrestigeBonus);
     }
 
-    // ---------------------------------
     // UPDATE SCREEN AFTER LOADING
-    // ---------------------------------
 
     updateStatistics();
 
@@ -916,148 +969,123 @@ function loadGame() {
 }
 
 
-// ---------------------------------
 // AUTO SAVE
 // Save every second
-// Store interval inside autoSave
-// so we can stop it when resetting
 
-const autoSave = setInterval( saveGame, 1000
-    );
+const autoSave = setInterval(saveGame, 1000);
 
-
-// ---------------------------------
 // RESET GAME
-// ---------------------------------
 
-resetButton.addEventListener("click", function() {
+resetButton.addEventListener("click", function () {
 
-        // Ask before resetting
-        const confirmReset = confirm("Are you sure you want to reset the game?" );
+    // Ask before resetting
+    const confirmReset = confirm("Are you sure you want to reset the game?");
 
-        if (confirmReset) {
+    if (confirmReset) {
 
-            // Stop automatic saving
-            clearInterval(autoSave);
+        // Stop automatic saving
+        clearInterval(autoSave);
 
-            // Delete all saved data
-            localStorage.clear();
+        // Delete all saved data
+        localStorage.clear();
 
-            // Reload page
-            location.reload();
-
-        }
+        // Reload page
+        location.reload();
 
     }
+
+}
 );
 
-
-// ---------------------------------
 // DARK MODE
-// ---------------------------------
 
-darkModeButton.addEventListener("click", function() {
+darkModeButton.addEventListener("click", function () {
 
-        // Add/remove dark mode
-        document.body.classList.toggle("dark-mode");
+    // Add/remove dark mode
+    document.body.classList.toggle("dark-mode");
 
-        // Change button text
-        if (document.body.classList.contains("dark-mode")
-        ) {
+    // Change button text
+    if (document.body.classList.contains("dark-mode")
+    ) {
 
-            darkModeButton.textContent = "Light Mode";
+        darkModeButton.textContent = "Light Mode";
 
-        } else {
+    } else {
 
-            darkModeButton.textContent = "Dark Mode";
-
-        }
-
-
-        // Save selected mode
-        saveGame();
+        darkModeButton.textContent = "Dark Mode";
 
     }
+
+
+    // Save selected mode
+    saveGame();
+
+}
 );
 
-// ---------------------------------
-// PRESTIGE SYSTEM
-// ---------------------------------
 
-prestigeButton.addEventListener("click", function() {
+// PRESTIGE SYSTEM
+
+prestigeButton.addEventListener("click", function () {
 
     if (cookies >= 100) {
 
         // Increase Prestige Level
-        prestigeLevel =
-            prestigeLevel + 1;
-
+        prestigeLevel = prestigeLevel + 1;
 
         // Every Prestige Level gives 10% bonus
-        prestigeBonus =
-            prestigeLevel * 0.10;
-
+        prestigeBonus = prestigeLevel * 0.10;
 
         // Reset current cookies
         cookies = 0;
 
-
         // Reset all production units
-        productionUnits.forEach(function(unit) {
+        productionUnits.forEach(function (unit) {
 
             // Reset owned amount
             unit.amount = 0;
 
             // Reset price to original price
-            unit.price =
-                unit.startPrice;
+            unit.price = unit.startPrice;
 
             // Remove production upgrade multiplier
             unit.multiplier = 1;
 
             // Update owned amount on screen
-            unit.display.textContent =
-                unit.amount;
+            unit.display.textContent = unit.amount;
 
             // Update price on screen
-            unit.priceDisplay.textContent =
-                unit.price;
+            unit.priceDisplay.textContent = unit.price;
         });
 
-
         // Reset all upgrades
-        upgrades.forEach(function(upgrade) {
+        upgrades.forEach(function (upgrade) {
 
             upgrade.purchased = false;
 
             upgrade.button.disabled = false;
+
+            upgrade.button.textContent = upgrade.originalText;
         });
 
-
         // Update Prestige Level on screen
-        prestigeLevelDisplay.textContent =
-            prestigeLevel;
-
+        prestigeLevelDisplay.textContent = prestigeLevel;
 
         // Update cookie counter
-        cookieDisplay.textContent =
-            cookies;
-
+        cookieDisplay.textContent = cookies;
 
         // Update CPS
         updateCPS();
 
-
-        // IMPORTANT:
         // Save AFTER resetting everything
         saveGame();
 
     } else {
 
         // Show error message
-            messageBox.textContent = "You don't have enough cookies!";
+        messageBox.textContent = "You don't have enough cookies!";
     }
-}); 
+});
 
 
 

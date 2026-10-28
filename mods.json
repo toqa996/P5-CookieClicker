@@ -1,0 +1,12 @@
+{
+    "productionUnits": [
+        {
+            "name": "robot",
+            "price": 300,
+            "production": 80,
+            "displayId": "robot-owned",
+            "buttonId": "buy-robot",
+            "priceId": "robot-price"
+        }
+    ]
+}

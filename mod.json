@@ -1,0 +1,12 @@
+{
+    "upgrades": [
+        {
+            "name": "superCursor",
+            "price": 200,
+            "buttonId": "super-cursor",
+            "type": "multiplier",
+            "productionUnit": "cursor",
+            "value": 3
+        }
+    ]
+}
